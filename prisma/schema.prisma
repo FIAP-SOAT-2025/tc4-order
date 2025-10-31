@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum OrderStatus {
+  PENDING
+  RECEIVED
+  PREPARING
+  READY
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentType {
+  PIX
+  CREDIT_CARD
+  DEBIT_CARD
+}
+
+enum PaymentStatus {
+  APPROVED
+  PENDING
+  REFUSED
+  EXPIRED
+  CANCELLED
+}
+
+
+
+model Order {
+  id           String      @id @default(uuid())
+  status       OrderStatus @default(RECEIVED)
+  totalAmount  Decimal     @db.Decimal(10, 2)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  customerId   String?
+  customer     Customer?   @relation("CustomerToOrder", fields: [customerId], references: [id])
+
+  orderItems   OrderItem[]
+  payment      Payment?
+
+   @@index([customerId],map:"idx_order_customerid" )
+   @@index([status],map:"idx_order_status" )
+   /*
+   esse index precisa ser criado diretamento no dbeaver/Postgresql, 
+   o prima não aceita índices condicionais
+    CREATE INDEX idx_order_customer_status ON public."Order" USING btree ("customerId", status) WHERE ("customerId" IS NOT NULL);
+
+   */
+  
+   
+}
+
+model OrderItem {
+  itemId       String
+  orderId      String
+  quantity     Int 
+  price    Decimal     @db.Decimal(10, 2)
+
+  item     Item   @relation(fields: [itemId], references: [id])
+  order    Order  @relation(fields: [orderId], references: [id])
+
+  @@id([itemId, orderId])
+  @@index([orderId],map:"idx_orderitem_orderid")
+}
+
+model Payment {
+  id                    String        @id @default(uuid())
+  status                PaymentStatus
+  type                  PaymentType
+  mercadoPagoPaymentId  String?
+  qrCode                String?
+
+  orderId     String        @unique
+  order       Order         @relation(fields: [orderId], references: [id])
+  
+  @@index([status], name: "idx_payment_status")
+
+}
