@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import axios, { AxiosInstance } from "axios";
-import { PaymentClientInterface } from "src/order/interfaces/payment-client.interface";
+import { PaymentClientInterface } from "src/order/interfaces/clients-interfaces/payment-client.interface";
+import { InputPayment, PaymentExternallyResponse } from "src/order/interfaces/responses-interfaces/payment-response.interface";
 
 @Injectable()
 export class PaymentClient implements PaymentClientInterface {
@@ -13,17 +14,15 @@ export class PaymentClient implements PaymentClientInterface {
             },
         });
     }
-    async createPaymentExternal(data: any): Promise<any> {
+    async createPaymentExternal(data: InputPayment): Promise<PaymentExternallyResponse> {
+        console.log("Calling external payment service with data:", data);
         const response = await this.api.post('/order/payment', data);
+        console.log("External payment service response:", response.data);
         return response.data;
     }
 
-   /* async getPaymentStatus(paymentId: string): Promise<any> {
-        const response = await this.api.get(`/order/payment/${paymentId}`);
-        return response.data;
-    }*/
 
-    async getPaymentStatus(paymentId: string): Promise<any> {
+    async getPaymentStatus(paymentId: string): Promise<PaymentExternallyResponse> {
         const response = await this.api.patch(`/order/payment-status/${paymentId}`);
         return response.data;
     }

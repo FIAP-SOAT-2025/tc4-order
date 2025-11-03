@@ -1,24 +1,18 @@
 /* eslint-disable prettier/prettier */
 import { OrderGateway } from '../gateways/order.gateway';
-import OrderGatewayInterface from '../interfaces/gateways';
 import FindAllOrderUseCase from '../usecases/findAllOrder.usecase';
 import FindOrderByIdUseCase from '../usecases/findOrder.usecase';
-import UpdateStatusOrderUseCase from '../usecases/updateStatusOrder.usecase';
-import { ItemGateway } from 'src/item/gateways/item.gateway';
+//import UpdateStatusOrderUseCase from '../usecases/updateStatusOrder.usecase';
 import ProcessOrderUseCase from '../usecases/createOrder.usecase';
 import { OrderDto } from '../infraestructure/api/dto/order.dto';
-import Order from '../entities/order.entity';
-import { OrderStatusEnum } from '../enums/orderStatus.enum';
-import { PaymentRepositoryInterface } from 'src/payments/interfaces/payment-repository.interface';
-import { Payment } from 'src/payments/domain/entities/payment.entity';
-import { PaymentProviderGateway } from 'src/payments/gateways/payment-provider.gateway';
-import { PaymentGateway } from 'src/payments/gateways/payment.gateway';
-import { CallPaymentProviderGatewayInterface } from 'src/payments/interfaces/call-payment-provider-gateway.interface';
-import ItemRepositoryInterface from 'src/item/interfaces/ItemRepositoryInterface';
+//import Order from '../entities/order.entity';
+//import { OrderStatusEnum } from '../enums/orderStatus.enum';
 import OrderInterface from '../interfaces/order.interface';
 import { GetCustomerByCpfInterface } from '../interfaces/get-customer-by-cpf-Interface';
 import { CreatePaymentUseCase } from '../usecases/payment/createPayment.usecase';
-import { PaymentClientInterface } from '../interfaces/payment-client.interface';
+import { PaymentGatewayInterface } from '../interfaces/gateways-interfaces/payment-gateway.interface';
+import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
+import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
 
 export class OrderController {
   constructor() { }
@@ -26,34 +20,43 @@ export class OrderController {
   static async createOrder(
     createOrderDto: OrderDto,
     orderRepository: OrderGatewayInterface,
-    itemRepository: ItemRepositoryInterface,
-    paymentRepository: PaymentRepositoryInterface,
-    paymentProvider: CallPaymentProviderGatewayInterface,
     getCustomerByCpf: GetCustomerByCpfInterface,
-    paymentClient: PaymentClientInterface,
-  ): Promise<{ order: OrderInterface; payment: Payment }> {
+    itemGateway: ItemGatewayInterface,
+    paymentGateway: PaymentGatewayInterface,
+  ): //Promise<{ order: OrderInterface; payment: Payment }> {
+    Promise<any> {
     const orderGateway = new OrderGateway(orderRepository);
-    const itemGateway = new ItemGateway(itemRepository);
-    const paymentGateway = new PaymentGateway(paymentRepository);
-    const paymentProviderGateway = new PaymentProviderGateway(paymentProvider);
-    const createPaymentUseCase = new CreatePaymentUseCase(paymentClient, paymentGateway);
+    const createPaymentUseCase = new CreatePaymentUseCase(paymentGateway);
 
     try {
-      return ProcessOrderUseCase.processOrder(
+
+      const response = await ProcessOrderUseCase.processOrder(
         createOrderDto,
         orderGateway,
-        itemGateway,
-        paymentGateway,
-        paymentProviderGateway,
         getCustomerByCpf,
         createPaymentUseCase,
+        itemGateway,
       );
+
+      console.log("response do controller:", response);
+      return response;
+    } catch (error) {
+      console.log("catch do controller:");
+      throw new Error(`Failed to create order  - ${JSON.stringify(error)}`);
+    }
+  }
+
+ /* static async find(
+    id: string,
+    orderRepository: OrderGatewayInterface,
+      );
+      return
     } catch (error) {
       throw new Error(`Failed to create order  - ${JSON.stringify(error)}`);
     }
   }
 
-  static async find(
+ /* static async find(
     id: string,
     orderRepository: OrderGatewayInterface,
   ): Promise<Order> {
@@ -77,5 +80,5 @@ export class OrderController {
       const orderGateway = new OrderGateway(orderRepository);
       const itemGateway = new ItemGateway(itemRepository);
       return UpdateStatusOrderUseCase.updateStatusOrder(id, statusDto, orderGateway, itemGateway);
-  }
+  }*/
 }

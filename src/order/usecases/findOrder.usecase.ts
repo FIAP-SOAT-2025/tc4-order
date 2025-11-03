@@ -1,5 +1,5 @@
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
-import OrderGatewayInterface from '../interfaces/gateways';
+import OrderGatewayInterface from '../interfaces/oreder-gateways.interface';
 import Order, { OrderProps } from '../entities/order.entity';
 
 export default class FindOrderByIdUseCase {

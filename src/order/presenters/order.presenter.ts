@@ -10,7 +10,7 @@ export function mapPrismaOrderToOrderResponse(
   prismaOrder: PrismaOrder,
   prismaItemOrder: PrismaOrderItem[],
 ): Order {
-  const order = new Order({
+  const order = Order.create({
     id: prismaOrder.id,
     status: prismaOrder.status as OrderStatusEnum,
     price:

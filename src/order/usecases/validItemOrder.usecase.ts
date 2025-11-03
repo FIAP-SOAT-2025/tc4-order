@@ -1,54 +1,45 @@
-import Item from '../entities/item/item.entity';
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
 import ItemQuantityAvailableUseCase from './item/itemQuantityAvailable.usecase';
 import OrderItemInterface from '../interfaces/order-item.interface';
-import { ItemClientOrderInterface } from '../interfaces/item-client.interface';
+import { ItemResponse } from '../interfaces/responses-interfaces/item-reponse.interface';
+import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
+
 
 
 export default class ValidItemOrderUseCase {
-  constructor(private itemClient: ItemClientOrderInterface) {}
-  async validItemOrderUseCase(
+  constructor() {}
+  static async validItemOrderUseCase(
     orderItemDto: OrderItemInterface,
-  ): Promise<Item> {
-    const itemResponse = await this.itemClient.getItem(
+    itemGateway: ItemGatewayInterface,
+  ): Promise<ItemResponse> {
+    console.log("itemGateway no validItemOrderUseCase:", itemGateway);
+    console.log("orderItemDto no validItemOrderUseCase:", orderItemDto);
+
+    const itemExternal = await itemGateway.getItem(
       orderItemDto.itemId,
     );
-    console.log("item encontrado:", itemResponse);
-    if (!itemResponse) {
+    console.log("item encontrado:", itemExternal);
+    if (!itemExternal) {
       throw new BaseException('Not Found Item', 404, 'NOT_FOUND_ITEM');
     }
-    const newItem = this.mapItemExternallyToItemEntity(itemResponse);
-
+    
     const isItemQuantityValid =
       ItemQuantityAvailableUseCase._isItemQuantityAvailable(
-        newItem.quantity,
+        itemExternal.quantity,
         orderItemDto.itemQuantity || 0,
       );
 
     if (!isItemQuantityValid) {
       throw new BaseException(
-        `Failed to create order: Item with ID ${orderItemDto.itemId} does not have enough quantity. Quantity: ${newItem.quantity}`,
+        `Failed to create order: Item with ID ${orderItemDto.itemId} 
+        does not have enough quantity. Quantity: ${itemExternal.quantity}`,
         400,
         'ITEM_NOT_AVAILABLE',
       );
     }
-
-    return newItem;
-  }
-
-
- private  mapItemExternallyToItemEntity(itemExternally: any): Item {
-    return new Item({
-      id: itemExternally.id,
-      name: itemExternally.name,
-      description: itemExternally.description,
-      images: itemExternally.images,
-      quantity: itemExternally.quantity,
-      price: itemExternally.price,
-      category: itemExternally.category,
-      createdAt: itemExternally.createdAt,
-      updatedAt: itemExternally.updatedAt,
-      isDeleted: itemExternally.isDeleted,
-    });
+    console.log("item validado com sucesso:", itemExternal);
+    return itemExternal;
   }
 }  
+
+

@@ -1,10 +1,10 @@
 import { OrderStatusEnum } from '../enums/orderStatus.enum';
-import OrderGatewayInterface from '../interfaces/gateways';
 import FindOrderUseCase from './findOrder.usecase';
-import ItemGatewayInterface from 'src/item/interfaces/itemGatewayInterface';
-import UpdateQuantityItemUseCase from 'src/item/useCases/updateQuantityItem.usecase';
+import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
+import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
+//import UpdateQuantityItemUseCase from './item/updateQuantityItem.usecase';
 
-export default class UpdateStatusOrderUseCase {
+/*export default class UpdateStatusOrderUseCase {
   constructor() {}
   static async updateStatusOrder(
     id: string,
@@ -19,6 +19,7 @@ export default class UpdateStatusOrderUseCase {
 
     if (status === OrderStatusEnum.RECEIVED) {
       for (const item of order.orderItems) {
+        //chamar url do item para atualizar a quantidade
         await UpdateQuantityItemUseCase.updateQuantity(
           item._itemId,
           item._quantity,
@@ -30,4 +31,4 @@ export default class UpdateStatusOrderUseCase {
       message: `Order with ID ${id} updated successfully`,
     };
   }
-}
+}*/

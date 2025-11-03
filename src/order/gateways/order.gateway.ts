@@ -1,6 +1,6 @@
 import Order from "../entities/order.entity";
 import { OrderStatusEnum } from "../enums/orderStatus.enum";
-import OrderGatewayInterface from "../interfaces/gateways";
+import OrderGatewayInterface from "../interfaces/gateways-interfaces/oreder-gateways.interface";
 
 export class OrderGateway implements OrderGatewayInterface {
    
@@ -8,6 +8,7 @@ export class OrderGateway implements OrderGatewayInterface {
   {}
 
   create(item: Order): Promise<Order> {
+    console.log("Creating order in gateway:", item);
     const order = this.orderRepository.create(item);
     return order;
   }

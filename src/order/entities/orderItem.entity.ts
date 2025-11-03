@@ -11,11 +11,16 @@ export class OrderItem {
   _quantity: number;
   _price: number;
 
-  constructor(props: OrderItemProps) {
+  private constructor(props: OrderItemProps) {
     this._itemId = props.itemId;
     this._orderId = props.orderId;
     this._quantity = props.quantity;
     this._price = props.price;
+  }
+
+
+  static create(props: OrderItemProps): OrderItem {
+    return new OrderItem(props);
   }
 
   setItemId(orderId: string): void {

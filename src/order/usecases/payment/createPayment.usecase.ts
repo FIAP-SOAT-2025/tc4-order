@@ -1,30 +1,33 @@
-import { PaymentClientInterface } from "src/order/interfaces/payment-client.interface";
-import { PaymentTypeEnum } from "src/order/entities/payment/enum/payment-type.enum";
-import { Payment, PaymentStatusEnum } from "src/order/entities/payment/payment.entity";
-import { PaymentGatewayInterface } from "src/payments/interfaces/payment-gateway.interface";
+import { PaymentClientInterface } from "src/order/interfaces/clients-interfaces/payment-client.interface";
+import { PaymentGatewayInterface } from "src/order/interfaces/gateways-interfaces/payment-gateway.interface";
+
+import { InputPayment, PaymentExternallyResponse } from "src/order/interfaces/responses-interfaces/payment-response.interface";
 
 export class CreatePaymentUseCase  {
   constructor(
-    private readonly paymentClient: PaymentClientInterface,
-    private readonly paymentGateway: PaymentGatewayInterface
+    private readonly paymentGateway: PaymentGatewayInterface,
+   
   ) {}
 
   async createPayment(
     email: string,
     orderId: string,
     totalAmount: number
-  ): Promise<Payment> {
+  ): Promise<PaymentExternallyResponse | null> {
+    console.log("CreatePaymentUseCase - createPayment called with:", { email, orderId, totalAmount });
+      const paymentInput: InputPayment = {
+        email,
+        orderId,
+        totalAmount
+      };
+    const provideResponse : PaymentExternallyResponse = await this.paymentGateway.createPayment(paymentInput);
+    console.log("provideResponse:", provideResponse);
+    
+      const paymentyExternall : PaymentExternallyResponse = {
+        paymentId: provideResponse.paymentId,
+        status: provideResponse.status
+      };
 
-    const provideResponse = await this.paymentClient.createPaymentExternal({
-      email,
-      orderId,
-      totalAmount
-    });
-    const paymentId = String(provideResponse.id);
-    const qrCode = provideResponse.point_of_interaction?.transaction_data?.qr_code;
-    const status = (provideResponse.status.toUpperCase() as PaymentStatusEnum);
-    const type = PaymentTypeEnum.PIX;
-
-    return this.paymentGateway.create( orderId, type, status, paymentId, qrCode);
+    return paymentyExternall;
   }
 }

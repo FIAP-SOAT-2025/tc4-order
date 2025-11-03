@@ -2,30 +2,26 @@ import { Body, Controller, Get, Param, Patch, Post, HttpException } from '@nestj
 import { ApiTags } from '@nestjs/swagger';
 import { OrderController } from 'src/order/controllers/order.controller';
 import { OrderDto } from '../dto/order.dto';
-import { OrderResponse } from '../dto/orderResponse.dto';
-import { OrderStatusEnum } from 'src/order/enums/orderStatus.enum';
-import Order from 'src/order/entities/order.entity';
-import { PrismaItemRepository } from 'src/item/infraestructure/persistence/prismaItem.repository';
+//import { OrderResponse } from '../dto/orderResponse.dto';
+//import { OrderStatusEnum } from 'src/order/enums/orderStatus.enum';
+//import Order from 'src/order/entities/order.entity';
 import { PrismaOrderRepository } from '../../persistence/order.repository';
-import { PrismaPaymentRepository } from 'src/payments/infrastructure/persistence/prismaPayment.repository';
-import { Payment } from 'src/payments/domain/entities/payment.entity';
-import { MercadoPagoClient } from 'src/payments/infrastructure/external/mercado-pago/mercado-pago.client';
-import { UpdateOrderStatusDto } from '../dto/update-status.dto';
+/*import { UpdateOrderStatusDto } from '../dto/update-status.dto';
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
-import { ExceptionMapper } from 'src/shared/exceptions/exception.mapper';
+import { ExceptionMapper } from 'src/shared/exceptions/exception.mapper';*/
 import OrderInterface from 'src/order/interfaces/order.interface';
 import { CustomerClient } from '../../external/customer/customer.client';
 import GetCustomerByCpf from 'src/order/usecases/customer/getCustomerByCpf.usecase';
 import { PaymentClient } from '../../external/payment/payment.client';
+import { PaymentExternallyResponse } from 'src/order/interfaces/responses-interfaces/payment-response.interface';
+import { ItemGatewayInterface } from 'src/order/interfaces/gateways-interfaces/item-gateway.interface';
+import { PaymentGatewayInterface } from 'src/order/interfaces/gateways-interfaces/payment-gateway.interface';
 
 @ApiTags('Order')
 @Controller('/order')
 export class OrderApi {
   constructor(
     private readonly orderRepository: PrismaOrderRepository,
-    private readonly itemRepository: PrismaItemRepository,
-    private readonly paymentRepository: PrismaPaymentRepository,
-    private readonly paymentProvider: MercadoPagoClient,
     private readonly customerClient: CustomerClient,
     private readonly paymentClient: PaymentClient,
   ) {}
@@ -33,20 +29,23 @@ export class OrderApi {
   @Post()
   createOrder(
     @Body() createOrderDto: OrderDto,
-  ): Promise<{ order: OrderInterface; payment: Payment }> {
+  ): Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
     const getCustomerByCpf = new GetCustomerByCpf(this.customerClient);
     return OrderController.createOrder(
       createOrderDto,
       this.orderRepository,
-      this.itemRepository,
-      this.paymentRepository,
-      this.paymentProvider,
       getCustomerByCpf,
-      this.paymentClient,
+      this.itemGateway,
+      this.paymentGateway,
     );
   }
 
-  @Get('/:id')
+   
+      
+     
+     
+
+  /*@Get('/:id')
   find(@Param('id') id: string): Promise<Order> {
     return OrderController.find(id, this.orderRepository);
   }
@@ -70,5 +69,5 @@ export class OrderApi {
       console.log('Error updating order status:', error);
       throw ExceptionMapper.mapToHttpException(error as BaseException);
     }
-  }
+  }*/
 }

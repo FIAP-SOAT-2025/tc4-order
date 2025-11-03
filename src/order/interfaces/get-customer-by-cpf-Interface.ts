@@ -1,5 +1,6 @@
-import { Customer } from "../entities/customer/customer.entity";
+import { CustomerExternallyResponse } from "./responses-interfaces/customer-externally-response.interface";
+
 
 export interface GetCustomerByCpfInterface {
-  getCustomerByCpf(cpf: string): Promise<Customer>;
+  getCustomerByCpf(cpf: string): Promise<CustomerExternallyResponse>;
 }

@@ -1,34 +1,32 @@
 /* eslint-disable prettier/prettier */
-import ItemGatewayInterface from 'src/item/interfaces/itemGatewayInterface';
-import OrderGatewayInterface from '../interfaces/gateways';
-import { Customer } from '../entities/customer/customer.entity';
 import ProccessOrderItemUseCase from './processOrderItem.usecase';
 import Order from '../entities/order.entity';
 import HasRepeatedOrderItemIdsUseCase from './item/hasRepeatedOrderItem.usecase';
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
 import { CreatePaymentUseCase } from 'src/order/usecases/payment/createPayment.usecase';
-import { Payment } from 'src/payments/domain/entities/payment.entity';
-import { CallPaymentProviderGatewayInterface } from 'src/payments/interfaces/call-payment-provider-gateway.interface';
-import { PaymentGatewayInterface } from 'src/payments/interfaces/payment-gateway.interface';
 import OrderInterface from '../interfaces/order.interface';
 import OrderPresenter from '../presenters/orderToJson.presenter';
 import { GetCustomerByCpfInterface } from '../interfaces/get-customer-by-cpf-Interface';
+import { CustomerExternallyResponse } from '../interfaces/responses-interfaces/customer-externally-response.interface';
+import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
+import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
 
 export default class ProcessOrderUseCase {
   constructor() {}
   static async processOrder(
     orderData: OrderInterface,
     orderGateway: OrderGatewayInterface,
-    itemGateway: ItemGatewayInterface,
-    paymentGateway: PaymentGatewayInterface,
-    paymentProvider: CallPaymentProviderGatewayInterface,
     getCustomerByCpf: GetCustomerByCpfInterface,
     createPaymentUseCase: CreatePaymentUseCase,
-  ): Promise<{ order: OrderInterface; payment: Payment }> {
-    let customer: Customer | undefined;
+    itemGateway: ItemGatewayInterface,
+  ): //Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
+  Promise<any> {
+    console.log("dentro do processOrderUseCase:", orderData);
+    let customer: CustomerExternallyResponse | undefined;
 
     if (orderData.orderItems) {
       if (
+        //classe que faz validaçao de itens repetidos no pedido,sem comunicação com o gateway
         HasRepeatedOrderItemIdsUseCase.hasRepeatedOrderItemIds(
           orderData.orderItems,
         )
@@ -46,27 +44,32 @@ export default class ProcessOrderUseCase {
         orderData.customerCpf
       );
     }
+    console.log("cliente encontrado:", customer);
      //busca itens  
     const processedOrderItems =
       await ProccessOrderItemUseCase.proccessOrderItem(orderData, itemGateway);
 
-    const current_order = new Order({
+      console.log("itens processados:", processedOrderItems);
+    const current_order = Order.create({
       customerId: customer?.id,
       orderItems: processedOrderItems,
     });
 
     const createdOrder = await orderGateway.create(current_order);
-
+    console.log("pedido criado:", createdOrder);
+    
     const payment = await createPaymentUseCase.createPayment(
       customer?.email || ProcessOrderUseCase.generateEmailForPaymentClient(createdOrder.id),
       createdOrder.id,
-      createdOrder.price,
+      createdOrder.totalAmount,
     );
 
-    return {
+    const newResponse = {
       order: OrderPresenter.formatOrderToJson(createdOrder),
       payment,
     };
+
+    return newResponse;
   }
 
   private static generateEmailForPaymentClient(orderId: string): string {

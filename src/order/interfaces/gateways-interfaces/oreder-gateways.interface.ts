@@ -1,5 +1,6 @@
-import Order from '../entities/order.entity';
-import { OrderStatusEnum } from '../enums/orderStatus.enum';
+import Order from "src/order/entities/order.entity";
+import { OrderStatusEnum } from "src/order/enums/orderStatus.enum";
+
 
 export default interface OrderGatewayInterface {
   create(item: Order): Promise<Order>;

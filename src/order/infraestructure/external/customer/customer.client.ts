@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 import { Injectable, } from '@nestjs/common';
-import { Customer } from "../../../entities/customer/customer.entity";
-import { CustomerClientOrderInterface } from "src/order/interfaces/customer-client.interface";
+import { CustomerExternallyResponse } from 'src/order/interfaces/responses-interfaces/customer-externally-response.interface';
+import { CustomerClientInterface } from 'src/order/interfaces/clients-interfaces/customer-client.interface';
 
 @Injectable()
-export class CustomerClient implements CustomerClientOrderInterface {
+export class CustomerClient implements CustomerClientInterface {
   private readonly api: AxiosInstance;
 
   constructor() {
@@ -16,8 +16,9 @@ export class CustomerClient implements CustomerClientOrderInterface {
     });
   }
 
-  async findByCpf(cpf: string): Promise<Customer | null> {
+  async findByCpfExternally(cpf: string): Promise<CustomerExternallyResponse | null> {
     try {
+      console.log("Chamando serviço externo de clientes com CPF:", cpf);
       const response = await this.api.get(`/customer/cpf/${cpf}`);
       
       console.log("Resposta do serviço de clientes:", response.data);
@@ -25,8 +26,8 @@ export class CustomerClient implements CustomerClientOrderInterface {
       if (!response.data) {
         return null;
       }
-      
-      return new Customer(response.data);
+
+      return response.data;
     } catch (error: any) {
       if (error.response?.status === 404) {
         return null;

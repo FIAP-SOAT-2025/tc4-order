@@ -4,6 +4,7 @@ import { registerDecorator, ValidationOptions } from 'class-validator';
 import { isValidCPF } from '@brazilian-utils/brazilian-utils';
 
 export function IsCPF(validationOptions?: ValidationOptions) {
+  console.log("::::::ENTREI NO IS CPF::::::::::", validationOptions);
   return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isCPF',

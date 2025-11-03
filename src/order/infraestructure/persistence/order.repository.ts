@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import OrderGatewayInterface from 'src/order/interfaces/gateways';
 import { PrismaService } from 'src/shared/infra/prisma.service';
 import Order from 'src/order/entities/order.entity';
-import { mapPrismaOrderToOrderResponse } from 'src/order/presenters/order.presenter';
 import { OrderStatus } from '@prisma/client';
+import OrderGatewayInterface from 'src/order/interfaces/gateways-interfaces/oreder-gateways.interface';
 
 @Injectable()
 export class PrismaOrderRepository implements OrderGatewayInterface {
@@ -11,12 +10,13 @@ export class PrismaOrderRepository implements OrderGatewayInterface {
 
   async create(order: Order): Promise<any> {
     try {
+      console.log('Creating order in repository:', order);
       const createdRecord = await this.prisma.order.create({
         data: {
           id: order.id,
           status: order.status,
           customerId: order.customerId,
-          totalAmount: order.price,
+          totalAmount: order.totalAmount,
         },
       });
 

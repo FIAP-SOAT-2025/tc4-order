@@ -9,7 +9,7 @@ export class OrderMapper {
     const response = new OrderResponse();
     response.id = order.id;
     response.status = order.status;
-    response.totalAmount = order.price;
+    response.totalAmount = order.totalAmount;
     response.customerId = order.customerId ?? null;
     return response;
   }

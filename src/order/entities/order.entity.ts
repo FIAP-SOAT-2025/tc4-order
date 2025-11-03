@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Payment } from 'src/payments/domain/entities/payment.entity';
 import { OrderStatusEnum } from '../enums/orderStatus.enum';
 import { OrderItem, OrderItemProps } from './orderItem.entity';
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
+import { Payment } from './payment/payment.entity';
 
 export interface OrderProps {
   id?: string;
@@ -10,22 +10,27 @@ export interface OrderProps {
   customerId?: string;
   orderItems: OrderItemProps[];
   payment?: Payment;
-  price?: number;
+  totalAmount?: number;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface PaymentInterface {
+  id: string;
+  status: string;
 }
 
 export default class Order {
   id: string;
   status: OrderStatusEnum;
-  price: number;
+  totalAmount: number;
   createdAt: Date;
   updatedAt: Date;
   customerId?: string;
   orderItems: OrderItem[];
-  payment?: Payment;
+  payment?: PaymentInterface;
 
-  constructor(props: OrderProps) {
+  private constructor(props: OrderProps) {
     this.id = props.id ?? uuidv4();
     this.status = (props.status as OrderStatusEnum) ?? OrderStatusEnum.PENDING;
     this.createdAt = props.createdAt ?? new Date();
@@ -33,17 +38,21 @@ export default class Order {
     this.customerId = props.customerId;
     this.orderItems = props.orderItems.map(
       (item) =>
-        new OrderItem({
+        OrderItem.create({
           ...item,
           orderId: this.id,
         }),
     );
-    this.price = this._calculatePrice(props.orderItems);
+    this.totalAmount = this._calculatePrice(props.orderItems);
   }
 
-  addPayment(payment: Payment) {
-    this.payment = payment;
+  static create(props: OrderProps): Order {
+    return new Order(props);
   }
+
+  /*addPayment(payment: Payment) {
+    this.payment = payment;
+  }*/
 
   updateOrderStatus(newStatus: OrderStatusEnum): void {
     const statusOrder = [
