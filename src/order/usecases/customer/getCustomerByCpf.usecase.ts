@@ -1,6 +1,6 @@
 import { Cpf} from '../../entities/customerCpf/cpf.entity';
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { GetCustomerByCpfInterface } from 'src/order/interfaces/get-customer-by-cpf-Interface';
 import { CustomerExternallyResponse } from 'src/order/interfaces/responses-interfaces/customer-externally-response.interface';
 import { CustomerGatewayInterface } from 'src/order/interfaces/gateways-interfaces/customer-gateway.interface';
@@ -8,7 +8,7 @@ import { CustomerGatewayInterface } from 'src/order/interfaces/gateways-interfac
 @Injectable()
 export default class GetCustomerByCpf implements GetCustomerByCpfInterface {
   constructor(
-     private readonly customerGateway: CustomerGatewayInterface
+     @Inject('CustomerGatewayInterface') private readonly customerGateway: CustomerGatewayInterface
   ) {}
   
   async getCustomerByCpf(cpf: string): Promise<CustomerExternallyResponse> {

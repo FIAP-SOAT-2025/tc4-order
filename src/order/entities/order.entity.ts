@@ -2,14 +2,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { OrderStatusEnum } from '../enums/orderStatus.enum';
 import { OrderItem, OrderItemProps } from './orderItem.entity';
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
-import { Payment } from './payment/payment.entity';
+//import { Payment } from './payment/payment.entity';
 
 export interface OrderProps {
   id?: string;
   status?: OrderStatusEnum;
   customerId?: string;
   orderItems: OrderItemProps[];
-  payment?: Payment;
+  //payment?: Payment;
   totalAmount?: number;
   createdAt?: Date;
   updatedAt?: Date;
@@ -28,7 +28,7 @@ export default class Order {
   updatedAt: Date;
   customerId?: string;
   orderItems: OrderItem[];
-  payment?: PaymentInterface;
+  //payment?: PaymentInterface;
 
   private constructor(props: OrderProps) {
     this.id = props.id ?? uuidv4();

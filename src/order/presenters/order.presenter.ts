@@ -13,7 +13,7 @@ export function mapPrismaOrderToOrderResponse(
   const order = Order.create({
     id: prismaOrder.id,
     status: prismaOrder.status as OrderStatusEnum,
-    price:
+    totalAmount:
       prismaOrder.totalAmount instanceof Decimal
         ? prismaOrder.totalAmount.toNumber()
         : prismaOrder.totalAmount,

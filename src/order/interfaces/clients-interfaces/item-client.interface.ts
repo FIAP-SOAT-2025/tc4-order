@@ -1,4 +1,5 @@
-import { ItemResponse } from './responses-interfaces/item-reponse.interface';
+import { ItemResponse } from "../responses-interfaces/item-reponse.interface";
+
 
 
 

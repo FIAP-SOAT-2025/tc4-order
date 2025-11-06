@@ -16,8 +16,8 @@ export class PaymentClient implements PaymentClientInterface {
     }
     async createPaymentExternal(data: InputPayment): Promise<PaymentExternallyResponse> {
         console.log("Calling external payment service with data:", data);
-        const response = await this.api.post('/order/payment', data);
-        console.log("External payment service response:", response.data);
+        const response = await this.api.post('/order/payment/checkout', data);
+        console.log("External payment service response:", response);
         return response.data;
     }
 

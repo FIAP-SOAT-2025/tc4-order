@@ -46,17 +46,9 @@ export class OrderController {
     }
   }
 
- /* static async find(
-    id: string,
-    orderRepository: OrderGatewayInterface,
-      );
-      return
-    } catch (error) {
-      throw new Error(`Failed to create order  - ${JSON.stringify(error)}`);
-    }
-  }
+  /*  
 
- /* static async find(
+  static async find(
     id: string,
     orderRepository: OrderGatewayInterface,
   ): Promise<Order> {

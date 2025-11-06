@@ -1,6 +1,7 @@
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
-import OrderGatewayInterface from '../interfaces/oreder-gateways.interface';
+
 import Order, { OrderProps } from '../entities/order.entity';
+import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
 
 export default class FindOrderByIdUseCase {
   constructor() {}
@@ -18,11 +19,11 @@ export default class FindOrderByIdUseCase {
       );
     }
 
-    const orderFinal = new Order(order as unknown as OrderProps);
+    const orderFinal = Order.create(order as unknown as OrderProps);
     
-    if (!orderFinal.payment && order.payment) {
+   /* if (!orderFinal.payment && order.payment) {
       orderFinal.addPayment(order.payment);
-    }
+    } */
 
     return orderFinal;
   }

@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Payment } from 'src/payments/domain/entities/payment.entity';
+//import { Payment } from 'src/payments/domain/entities/payment.entity';
 
 export class OrderResponse {
   @ApiProperty()
@@ -35,6 +35,6 @@ export class CompleteOrderResponse extends OrderResponse {
   @ApiProperty({ type: [OrderItemResponse] })
   orderItems: OrderItemResponse;
 
-  @ApiProperty({ type: [Payment] })
-  payment?: Payment;
+/*  @ApiProperty({ type: [Payment] })
+  payment?: Payment; */
 }

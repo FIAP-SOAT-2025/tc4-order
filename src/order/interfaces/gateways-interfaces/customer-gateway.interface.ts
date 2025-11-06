@@ -1,4 +1,5 @@
-import { CustomerExternallyResponse } from "./responses-interfaces/customer-externally-response.interface";
+import { CustomerExternallyResponse } from "../responses-interfaces/customer-externally-response.interface";
+
 
 
 /**

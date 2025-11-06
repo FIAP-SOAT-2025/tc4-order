@@ -1,4 +1,5 @@
-import OrderItemInterface from './order-item.interface';
+import OrderItemInterface from "../order-item.interface";
+
 
 export default interface OrderResponseInterface {
   id: string;

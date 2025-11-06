@@ -19,7 +19,7 @@ export class ItemClient implements ItemClientInterface {
         try {
             console.log("Chamando serviço externo de itens com ID:", id);
 
-            const response = await this.api.get(`/item/${id}`);
+            const response = await this.api.get(`/order/item/${id}`);
 
             console.log("Resposta do serviço de itens:", response.data);
             if (!response.data) {

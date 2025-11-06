@@ -19,6 +19,7 @@ export class CustomerClient implements CustomerClientInterface {
   async findByCpfExternally(cpf: string): Promise<CustomerExternallyResponse | null> {
     try {
       console.log("Chamando serviço externo de clientes com CPF:", cpf);
+      console.log("URL do serviço de clientes:", this.api.defaults.baseURL);
       const response = await this.api.get(`/customer/cpf/${cpf}`);
       
       console.log("Resposta do serviço de clientes:", response.data);
@@ -29,6 +30,7 @@ export class CustomerClient implements CustomerClientInterface {
 
       return response.data;
     } catch (error: any) {
+      console.log("Erro ao chamar serviço externo de clientes:", error.message);
       if (error.response?.status === 404) {
         return null;
       }

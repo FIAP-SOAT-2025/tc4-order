@@ -8,7 +8,7 @@ export default class OrderPresenter {
     return {
       id: order.id,
       status: order.status,
-      totalAmount: order.price,
+      totalAmount: order.totalAmount,
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
       customerId: order.customerId ?? undefined,

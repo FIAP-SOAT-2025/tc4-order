@@ -2,10 +2,10 @@
 
 export default class ItemQuantityAvailableUseCase {
   constructor() {}
-  static _isItemQuantityAvailable(quantity: number, dtoQuantity: number): boolean {
-    console.log("quantity no isItemQuantityAvailable:", quantity);
-    console.log("dtoQuantity no isItemQuantityAvailable:", dtoQuantity);
-    if (quantity < dtoQuantity) return false;
+  static _isItemQuantityAvailable(itemExternalQuantity: number, estockQuantity: number): boolean {
+    console.log("itemExternalQuantity no isItemQuantityAvailable:", itemExternalQuantity);
+    console.log("estockQuantity no isItemQuantityAvailable:", estockQuantity);
+    if (itemExternalQuantity < estockQuantity) return false;
     return true;
   }
 }

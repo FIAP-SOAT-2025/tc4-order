@@ -63,12 +63,12 @@ export default class ProcessOrderUseCase {
       createdOrder.id,
       createdOrder.totalAmount,
     );
-
+    console.log("pagamento criado:", payment);
     const newResponse = {
       order: OrderPresenter.formatOrderToJson(createdOrder),
       payment,
     };
-
+    console.log("newResponse do processOrderUseCase:", newResponse);
     return newResponse;
   }
 

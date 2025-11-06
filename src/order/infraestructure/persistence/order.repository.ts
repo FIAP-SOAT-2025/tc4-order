@@ -11,11 +11,12 @@ export class PrismaOrderRepository implements OrderGatewayInterface {
   async create(order: Order): Promise<any> {
     try {
       console.log('Creating order in repository:', order);
+      console.log('CustomerId:', order.customerId);
       const createdRecord = await this.prisma.order.create({
         data: {
           id: order.id,
           status: order.status,
-          customerId: order.customerId,
+          customerId: order.customerId ,
           totalAmount: order.totalAmount,
         },
       });
