@@ -15,10 +15,6 @@ export class CustomerGateway implements CustomerGatewayInterface {
     console.log("customerClient tipo:", typeof this.customerClient);
 
     try {
-      if (!this.customerClient) {
-        throw new Error("CustomerClient não foi injetado corretamente");
-      }
-
       const customer: CustomerExternallyResponse | null = await this.customerClient.findByCpfExternally(cpf);
         if (!customer) {
             return null;

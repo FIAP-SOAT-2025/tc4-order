@@ -9,7 +9,7 @@ export default class FindOrderByIdUseCase {
     id: string,
     orderGateway: OrderGatewayInterface,
   ): Promise<Order> {
-    const order = await orderGateway.findById(id);
+    const order = await orderGateway.getOrderForId(id);
 
     if (!order) {
       throw new BaseException(

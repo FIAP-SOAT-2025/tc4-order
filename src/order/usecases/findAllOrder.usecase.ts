@@ -3,7 +3,7 @@ import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gate
 export default class FindAllOrderUseCase {
   constructor() {}
   static async findAll(orderGateway: OrderGatewayInterface): Promise<Order[]> {
-    const order = await orderGateway.findAll();
+    const order = await orderGateway.getAllOrders();
     return order;
   }
 }

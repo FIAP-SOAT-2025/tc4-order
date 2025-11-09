@@ -17,6 +17,9 @@ import { CustomerClientInterface } from './interfaces/clients-interfaces/custome
 import { ItemClientInterface } from './interfaces/clients-interfaces/item-client.interface';
 import { PaymentClientInterface } from './interfaces/clients-interfaces/payment-client.interface';
 import GetCustomerByCpf from './usecases/customer/getCustomerByCpf.usecase';
+import { OrderGateway } from './gateways/order.gateway';
+import OrderGatewayInterface from './interfaces/gateways-interfaces/oreder-gateways.interface';
+import OrderRepositoryInterface from './interfaces/OrderRepository.interface';
 
 @Module({
   imports: [ConfigModule.forRoot(), HttpModule],
@@ -30,6 +33,7 @@ import GetCustomerByCpf from './usecases/customer/getCustomerByCpf.usecase';
     CustomerGateway,
     PaymentGateway,
     ItemGateway,
+    OrderGateway,
     GetCustomerByCpf,
     {
       provide: 'CustomerClientInterface',
@@ -54,6 +58,14 @@ import GetCustomerByCpf from './usecases/customer/getCustomerByCpf.usecase';
     {
       provide: 'ItemGatewayInterface',
       useExisting: ItemGateway,
+    },
+    {
+      provide: 'OrderRepositoryInterface',
+      useExisting: PrismaOrderRepository,
+    },
+    {
+      provide: 'OrderGatewayInterface',
+      useExisting: OrderGateway,
     },
   ],
   exports: [],

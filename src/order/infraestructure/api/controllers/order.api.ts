@@ -33,11 +33,11 @@ export class OrderApi {
   ) {}
 
   @Post()
-  createOrder(
+  async createOrder(
     @Body() createOrderDto: OrderDto,
   ): Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
     console.log("Creating order with DTO:", createOrderDto);
-    return OrderController.createOrder(
+    return await OrderController.createOrder(
       createOrderDto,
       this.orderRepository,
       this.getCustomerByCpf,

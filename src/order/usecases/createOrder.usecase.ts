@@ -10,6 +10,7 @@ import { GetCustomerByCpfInterface } from '../interfaces/get-customer-by-cpf-Int
 import { CustomerExternallyResponse } from '../interfaces/responses-interfaces/customer-externally-response.interface';
 import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
 import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
+import { PaymentExternallyResponse } from '../interfaces/responses-interfaces/payment-response.interface';
 
 export default class ProcessOrderUseCase {
   constructor() {}
@@ -19,8 +20,7 @@ export default class ProcessOrderUseCase {
     getCustomerByCpf: GetCustomerByCpfInterface,
     createPaymentUseCase: CreatePaymentUseCase,
     itemGateway: ItemGatewayInterface,
-  ): //Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
-  Promise<any> {
+  ): Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
     console.log("dentro do processOrderUseCase:", orderData);
     let customer: CustomerExternallyResponse | undefined;
 
@@ -55,7 +55,7 @@ export default class ProcessOrderUseCase {
       orderItems: processedOrderItems,
     });
 
-    const createdOrder = await orderGateway.create(current_order);
+    const createdOrder = await orderGateway.saveOrder(current_order);
     console.log("pedido criado:", createdOrder);
     
     const payment = await createPaymentUseCase.createPayment(

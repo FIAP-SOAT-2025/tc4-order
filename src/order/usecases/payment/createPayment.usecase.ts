@@ -1,4 +1,3 @@
-import { PaymentClientInterface } from "src/order/interfaces/clients-interfaces/payment-client.interface";
 import { PaymentGatewayInterface } from "src/order/interfaces/gateways-interfaces/payment-gateway.interface";
 
 import { InputPayment, PaymentExternallyResponse } from "src/order/interfaces/responses-interfaces/payment-response.interface";
@@ -13,7 +12,7 @@ export class CreatePaymentUseCase  {
     email: string,
     orderId: string,
     totalAmount: number
-  ): Promise<PaymentExternallyResponse | null> {
+  ): Promise<PaymentExternallyResponse> {
     console.log("CreatePaymentUseCase - createPayment called with:", { email, orderId, totalAmount });
       const paymentInput: InputPayment = {
         email,

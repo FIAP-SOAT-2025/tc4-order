@@ -11,20 +11,20 @@ import OrderInterface from '../interfaces/order.interface';
 import { GetCustomerByCpfInterface } from '../interfaces/get-customer-by-cpf-Interface';
 import { CreatePaymentUseCase } from '../usecases/payment/createPayment.usecase';
 import { PaymentGatewayInterface } from '../interfaces/gateways-interfaces/payment-gateway.interface';
-import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
+import OrderRepositoryInterface from '../interfaces/OrderRepository.interface';
 import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
+import { PaymentExternallyResponse } from '../interfaces/responses-interfaces/payment-response.interface';
 
 export class OrderController {
   constructor() { }
 
   static async createOrder(
     createOrderDto: OrderDto,
-    orderRepository: OrderGatewayInterface,
+    orderRepository: OrderRepositoryInterface,
     getCustomerByCpf: GetCustomerByCpfInterface,
     itemGateway: ItemGatewayInterface,
     paymentGateway: PaymentGatewayInterface,
-  ): //Promise<{ order: OrderInterface; payment: Payment }> {
-    Promise<any> {
+  ): Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
     const orderGateway = new OrderGateway(orderRepository);
     const createPaymentUseCase = new CreatePaymentUseCase(paymentGateway);
 
