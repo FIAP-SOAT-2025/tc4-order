@@ -41,7 +41,6 @@ model Order {
   updatedAt    DateTime    @updatedAt
 
   customerId   String?
-  customer     Customer?   @relation("CustomerToOrder", fields: [customerId], references: [id])
 
   orderItems   OrderItem[]
   payment      Payment?
@@ -64,7 +63,6 @@ model OrderItem {
   quantity     Int 
   price    Decimal     @db.Decimal(10, 2)
 
-  item     Item   @relation(fields: [itemId], references: [id])
   order    Order  @relation(fields: [orderId], references: [id])
 
   @@id([itemId, orderId])
