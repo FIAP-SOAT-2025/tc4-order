@@ -2,7 +2,7 @@ name: CI - SonarCloud Scan
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feat/sonar ]
   pull_request:
     branches: [ main ]
 
