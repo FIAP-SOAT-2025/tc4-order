@@ -9,4 +9,5 @@ import { ItemResponse } from "../responses-interfaces/item-reponse.interface";
  */
 export interface ItemGatewayInterface {
   getItem(itemId: string): Promise<ItemResponse | null>;
+  updateQuantity(itemId: string, quantity: number): Promise<void>;
 }

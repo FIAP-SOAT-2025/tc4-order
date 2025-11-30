@@ -26,7 +26,6 @@ export default class ProcessOrderUseCase {
 
     if (orderData.orderItems) {
       if (
-        //classe que faz validaçao de itens repetidos no pedido,sem comunicação com o gateway
         HasRepeatedOrderItemIdsUseCase.hasRepeatedOrderItemIds(
           orderData.orderItems,
         )
@@ -45,7 +44,6 @@ export default class ProcessOrderUseCase {
       );
     }
     console.log("cliente encontrado:", customer);
-     //busca itens  
     const processedOrderItems =
       await ProccessOrderItemUseCase.proccessOrderItem(orderData, itemGateway);
 
