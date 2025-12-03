@@ -31,4 +31,12 @@ export class ItemClient implements ItemClientInterface {
             return null;
         }
     }
-}
+    async updateItemQuantityExternally(itemId: string, quantity: number): Promise<void> {
+        try {
+            console.log("Chamando serviço externo para atualizar quantidade do item:", itemId, quantity);       
+            await this.api.put(`/order/item/quantity`, { quantity });
+        } catch (error) {
+            console.error(`Error updating item quantity for id ${itemId}:`, error);
+        }
+    }
+}    

@@ -1,8 +1,8 @@
-/*import { OrderStatusEnum } from '../enums/orderStatus.enum';
+import { OrderStatusEnum } from '../enums/orderStatus.enum';
 import FindOrderUseCase from './findOrder.usecase';
 import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
 import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
-//import UpdateQuantityItemUseCase from './item/updateQuantityItem.usecase';
+
 
 export default class UpdateStatusOrderUseCase {
   constructor() {}
@@ -15,15 +15,14 @@ export default class UpdateStatusOrderUseCase {
     const order = await FindOrderUseCase.findOrder(id, orderGateway);
     order.updateOrderStatus(status);
 
-    await orderGateway.updateStatus(id, status);
+    await orderGateway.updateStatusOrder(id, status);
 
     if (status === OrderStatusEnum.RECEIVED) {
       for (const item of order.orderItems) {
         //chamar url do item para atualizar a quantidade
-        await UpdateQuantityItemUseCase.updateQuantity(
+        await itemGateway.updateQuantity(
           item._itemId,
-          item._quantity,
-          itemGateway,
+          item._quantity
         );
       }
     }
@@ -31,4 +30,4 @@ export default class UpdateStatusOrderUseCase {
       message: `Order with ID ${id} updated successfully`,
     };
   }
-}*/
+}

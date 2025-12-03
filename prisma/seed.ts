@@ -1,12 +1,8 @@
 import {
   PrismaClient,
-  ItemCategory,
   OrderStatus,
-  PaymentType,
-  PaymentStatus,
-  RoleType,
 } from '@prisma/client';
-import { randomUUID } from 'crypto';
+
 
 const prisma = new PrismaClient();
 
@@ -14,192 +10,6 @@ async function main() {
   // Limpar banco de dados (opcional, mas útil para desenvolvimento)
   await cleanDatabase();
 
-  // Criar roles
-  const adminRole = await prisma.role.create({
-    data: {
-      id: randomUUID(),
-      type: RoleType.ADMIN,
-      description: 'Administrador do sistema com acesso total',
-    },
-  });
-
-  const staffRole = await prisma.role.create({
-    data: {
-      id: randomUUID(),
-      type: RoleType.STAFF,
-      description: 'Funcionário com acesso limitado ao sistema',
-    },
-  });
-
-  // Criar usuários internos
-  const adminUser = await prisma.internalUser.create({
-    data: {
-      registrationNumber: 'ADMIN-001',
-      name: 'Admin Principal',
-      cpf: '12345678900',
-      email: 'admin@restaurante.com',
-      password: '$2a$10$hACwQ5/HQI6FhbIISOUVeusy3sKyUDhSq36fF5d/54aAdiygJPFzm', // hash de "admin123"
-      roleId: adminRole.id, // Ensure adminRole.id exists
-    },
-  });
-
-  const staffUser1 = await prisma.internalUser.create({
-    data: {
-      registrationNumber: 'STAFF-001',
-      name: 'João Silva',
-      cpf: '23456789001',
-      email: 'joao@restaurante.com',
-      password: '$2a$10$AkQbLj.a9W8CLlJrZgCPLOxjpFOfqkCCJ3E/cIyYUuCoNcJiA3UXK', // hash de "staff123"
-      roleId: staffRole.id, // Ensure staffRole.id exists
-    },
-  });
-
-  const staffUser2 = await prisma.internalUser.create({
-    data: {
-      registrationNumber: 'STAFF-002',
-      name: 'Maria Oliveira',
-      cpf: '34567890102',
-      email: 'maria@restaurante.com',
-      password: '$2a$10$AkQbLj.a9W8CLlJrZgCPLOxjpFOfqkCCJ3E/cIyYUuCoNcJiA3UXK', // hash de "staff123"
-      roleId: staffRole.id, // Ensure staffRole.id exists
-    },
-  });
-
-  // Criar itens do cardápio
-  const hamburger = await prisma.item.create({
-    data: {
-      name: 'X-Burger Especial',
-      description:
-        'Hambúrguer artesanal com queijo, alface, tomate e molho especial',
-      images: ['https://placehold.co/600x400', 'https://placehold.co/600x400'],
-      price: 22.9,
-      quantity: 100,
-      category: ItemCategory.SANDWICH,
-    },
-  });
-
-  const cheeseburger = await prisma.item.create({
-    data: {
-      name: 'X-Salada Duplo',
-      description:
-        'Dois hambúrgueres artesanais, queijo cheddar, alface, tomate e cebola caramelizada',
-      images: [
-        'https://placehold.co/600x400',
-        'https://placehold.co/600x400',
-        'https://placehold.co/600x400',
-      ],
-      price: 29.9,
-      quantity: 100,
-      category: ItemCategory.SANDWICH,
-    },
-  });
-
-  const veggieburger = await prisma.item.create({
-    data: {
-      name: 'Veggie Burger',
-      description:
-        'Hambúrguer vegetariano com queijo, alface, tomate e molho especial',
-      images: [
-        'https://placehold.co/600x400',
-        'https://placehold.co/600x400',
-        'https://placehold.co/600x400',
-      ],
-      price: 24.9,
-      quantity: 50,
-      category: ItemCategory.SANDWICH,
-    },
-  });
-
-  const frenchFries = await prisma.item.create({
-    data: {
-      name: 'Batata Frita Grande',
-      description: 'Porção grande de batatas fritas crocantes',
-      images: ['https://placehold.co/600x400'],
-      price: 18.9,
-      quantity: 200,
-      category: ItemCategory.SIDE,
-    },
-  });
-
-  const onionRings = await prisma.item.create({
-    data: {
-      name: 'Anéis de Cebola',
-      description: 'Anéis de cebola empanados e fritos',
-      images: ['https://placehold.co/600x400'],
-      price: 15.9,
-      quantity: 150,
-      category: ItemCategory.SIDE,
-    },
-  });
-
-  const cola = await prisma.item.create({
-    data: {
-      name: 'Refrigerante Cola 500ml',
-      description: 'Refrigerante tipo cola gelado',
-      images: ['https://placehold.co/600x400'],
-      price: 7.9,
-      quantity: 300,
-      category: ItemCategory.BEVERAGE,
-    },
-  });
-
-  const juice = await prisma.item.create({
-    data: {
-      name: 'Suco Natural de Laranja 300ml',
-      description: 'Suco de laranja 100% natural',
-      images: ['https://placehold.co/600x400'],
-      price: 9.9,
-      quantity: 100,
-      category: ItemCategory.BEVERAGE,
-    },
-  });
-
-  const iceCream = await prisma.item.create({
-    data: {
-      name: 'Sorvete de Chocolate',
-      description: 'Sorvete cremoso de chocolate com calda',
-      images: ['https://placehold.co/600x400'],
-      price: 12.9,
-      quantity: 80,
-      category: ItemCategory.DESSERT,
-    },
-  });
-
-  const brownie = await prisma.item.create({
-    data: {
-      name: 'Brownie com Sorvete',
-      description: 'Brownie quente com sorvete de baunilha',
-      images: ['https://placehold.co/600x400'],
-      price: 16.9,
-      quantity: 60,
-      category: ItemCategory.DESSERT,
-    },
-  });
-
-  // Criar clientes
-  const customer1 = await prisma.customer.create({
-    data: {
-      name: 'Ana Souza',
-      cpf: '45678901234',
-      email: 'ana.souza@email.com',
-    },
-  });
-
-  const customer2 = await prisma.customer.create({
-    data: {
-      name: 'Carlos Mendes',
-      cpf: '56789012345',
-      email: 'carlos.mendes@email.com',
-    },
-  });
-
-  const customer3 = await prisma.customer.create({
-    data: {
-      name: 'Beatriz Lima',
-      cpf: '67890123456',
-      email: 'beatriz.lima@email.com',
-    },
-  });
 
   // Criar pedidos com pagamentos
   // Pedido 1
@@ -207,31 +17,15 @@ async function main() {
     data: {
       status: OrderStatus.COMPLETED,
       totalAmount: 59.7,
-      customerId: customer1.id,
+      customerId: "1f228665-4e55-4f0c-9537-da3ea7980511",
       createdAt: new Date('2025-08-01T09:30:40Z'),
     },
-  });
-
-  const payment1 = await prisma.payment.create({
-    data: {
-      status: PaymentStatus.APPROVED,
-      type: PaymentType.PIX,
-      orderId: order1.id,
-      qrCode: "00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b615204000053039865406157.205802BR5925DIkGwOMywWUXuWnQWchGHFiZE6009Sao Paulo62230519mpqrinter1340016447630411F6",
-      mercadoPagoPaymentId: "1340016447",
-    },
-  });
-
-  // Atualizar o orderId do payment1
-  await prisma.payment.update({
-    where: { id: payment1.id },
-    data: { orderId: order1.id },
   });
 
   // Adicionar itens ao pedido 1
   await prisma.orderItem.create({
     data: {
-      itemId: hamburger.id,
+      itemId: "a9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order1.id,
       quantity: 1,
       price: 22.9,
@@ -240,7 +34,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: frenchFries.id,
+      itemId: "b9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order1.id,
       quantity: 1,
       price: 18.9,
@@ -249,7 +43,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: cola.id,
+      itemId: "c9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order1.id,
       quantity: 1,
       price: 7.9,
@@ -258,7 +52,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: iceCream.id,
+      itemId: "d9f43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order1.id,
       quantity: 1,
       price: 10.0,
@@ -270,31 +64,15 @@ async function main() {
     data: {
       status: OrderStatus.READY,
       totalAmount: 145.43,
-      customerId: customer2.id,
+      customerId: "2f228665-4e55-4f0c-9537-da3ea7980512",
       createdAt: new Date('2025-08-01T10:29:40Z'),
     },
-  });
-
-  const payment2 = await prisma.payment.create({
-    data: {
-      status: PaymentStatus.APPROVED,
-      type: PaymentType.PIX,
-      orderId: order2.id,
-      qrCode: "00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b615204000053039865406157.205802BR5925DIkGwOMywWUXuWnQWchGHFiZE6009Sao Paulo62230519mpqrinter1340016447630411F6",
-      mercadoPagoPaymentId: "1340016447",
-    },
-  });
-
-  // Atualizar o orderId do payment2
-  await prisma.payment.update({
-    where: { id: payment2.id },
-    data: { orderId: order2.id },
   });
 
   // Adicionar itens ao pedido 2
   await prisma.orderItem.create({
     data: {
-      itemId: cheeseburger.id,
+      itemId: "a9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order2.id,
       quantity: 2,
       price: 59.8,
@@ -303,7 +81,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: juice.id,
+      itemId: "f9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order2.id,
       quantity: 1,
       price: 9.9,
@@ -312,7 +90,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: onionRings.id,
+      itemId: "e9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order2.id,
       quantity: 1,
       price: 15.90,
@@ -324,31 +102,35 @@ async function main() {
     data: {
       status: OrderStatus.RECEIVED,
       totalAmount: 41.8,
-      customerId: customer3.id,
+      customerId: "3f228665-4e55-4f0c-9537-da3ea7980513",
       createdAt: new Date('2025-08-01T10:20:40Z'),
     },
   });
 
-  const payment3 = await prisma.payment.create({
+  await prisma.orderItem.create({
     data: {
-      status: PaymentStatus.APPROVED,
-      type: PaymentType.PIX,
+      itemId: "e9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order3.id,
-      qrCode: "00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b615204000053039865406157.205802BR5925DIkGwOMywWUXuWnQWchGHFiZE6009Sao Paulo62230519mpqrinter1340016447630411F6",
-      mercadoPagoPaymentId: "1340016447",
+      quantity: 2,
+      price: 15.90,
     },
   });
 
-  // Atualizar o orderId do payment3
-  await prisma.payment.update({
-    where: { id: payment3.id },
-    data: { orderId: order3.id },
+  await prisma.orderItem.create({
+    data: {
+      itemId: "87ded4c3-cec4-4a0f-8436-63bb677e3deb",
+      orderId: order3.id,
+      quantity: 3,
+      price: 5.90,
+    },
   });
+
+
 
   // Adicionar itens ao pedido 3
   await prisma.orderItem.create({
     data: {
-      itemId: veggieburger.id,
+      itemId: "g9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order3.id,
       quantity: 1,
       price: 24.9,
@@ -357,7 +139,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: juice.id,
+      itemId: "f9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order3.id,
       quantity: 1,
       price: 9.9,
@@ -366,7 +148,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: brownie.id,
+      itemId: "h9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order3.id,
       quantity: 1,
       price: 7.0,
@@ -380,31 +162,15 @@ async function main() {
     data: {
       status: OrderStatus.READY,
       totalAmount: 298.80,
-      customerId: customer2.id,
+      customerId: "2f228665-4e55-4f0c-9537-da3ea7980512",
       createdAt: new Date('2025-08-01T10:35:40Z'),
     },
-  });
-
-  const payment4 = await prisma.payment.create({
-    data: {
-      status: PaymentStatus.APPROVED,
-      type: PaymentType.PIX,
-      orderId: order4.id,
-      qrCode: "00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b615204000053039865406157.205802BR5925DIkGwOMywWUXuWnQWchGHFiZE6009Sao Paulo62230519mpqrinter1340016447630411F6",
-      mercadoPagoPaymentId: "1340016447",
-    },
-  });
-
-  // Atualizar o orderId do payment4
-  await prisma.payment.update({
-    where: { id: payment4.id },
-    data: { orderId: order4.id },
   });
 
   // Adicionar itens ao pedido 4
   await prisma.orderItem.create({
     data: {
-      itemId: cheeseburger.id,
+      itemId: "94961b05-c092-47ca-9e1b-2671584a7248",
       orderId: order4.id,
       quantity: 4,
       price: 59.8,
@@ -413,7 +179,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: juice.id,
+      itemId: "f9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order4.id,
       quantity: 4,
       price: 9.9,
@@ -422,10 +188,10 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: onionRings.id,
+      itemId: "d9f7529f-acbe-4ff2-a89f-e673d37e8521",
       orderId: order4.id,
       quantity: 4,
-      price: 15.90,
+      price: 13.90,
     },
   });
 
@@ -434,31 +200,15 @@ async function main() {
     data: {
       status: OrderStatus.READY,
       totalAmount: 209.00,
-      customerId: customer3.id,
+      customerId: "3f228665-4e55-4f0c-9537-da3ea7980513",
       createdAt: new Date('2025-08-01T10:31:40Z'),
     },
-  });
-
-  const payment5 = await prisma.payment.create({
-    data: {
-      status: PaymentStatus.APPROVED,
-      type: PaymentType.PIX,
-      orderId: order5.id,
-      qrCode: "00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b615204000053039865406157.205802BR5925DIkGwOMywWUXuWnQWchGHFiZE6009Sao Paulo62230519mpqrinter1340016447630411F6",
-      mercadoPagoPaymentId: "1340016447",
-    },
-  });
-
-  // Atualizar o orderId do payment5
-  await prisma.payment.update({
-    where: { id: payment5.id },
-    data: { orderId: order5.id },
   });
 
   // Adicionar itens ao pedido 5
   await prisma.orderItem.create({
     data: {
-      itemId: veggieburger.id,
+      itemId: "g9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order5.id,
       quantity: 5,
       price: 24.9,
@@ -467,7 +217,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: juice.id,
+      itemId: "f9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order5.id,
       quantity: 5,
       price: 9.9,
@@ -476,7 +226,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: brownie.id,
+      itemId: "h9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order5.id,
       quantity: 5,
       price: 7.0,
@@ -487,40 +237,24 @@ async function main() {
     data: {
       status: OrderStatus.PREPARING,
       totalAmount: 36.90,
-      customerId: customer2.id,
+      customerId: "2f228665-4e55-4f0c-9537-da3ea7980512",
       createdAt: new Date('2025-08-01T10:22:40Z'),
     },
-  });
-
-  const payment6 = await prisma.payment.create({
-    data: {
-      status: PaymentStatus.APPROVED,
-      type: PaymentType.PIX,
-      orderId: order6.id,
-      qrCode: "00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b615204000053039865406157.205802BR5925DIkGwOMywWUXuWnQWchGHFiZE6009Sao Paulo62230519mpqrinter1340016447630411F6",
-      mercadoPagoPaymentId: "1340016447",
-    },
-  });
-
-  // Atualizar o orderId do payment6
-  await prisma.payment.update({
-    where: { id: payment6.id },
-    data: { orderId: order6.id },
   });
 
   // Adicionar itens ao pedido 6
   await prisma.orderItem.create({
     data: {
-      itemId: onionRings.id,
+      itemId: "d9f7529f-acbe-4ff2-a89f-e673d37e8521",
       orderId: order6.id,
       quantity: 4,
-      price: 15.90,
+      price: 13.90,
     },
   });
 
   await prisma.orderItem.create({
     data: {
-      itemId: juice.id,
+      itemId: "f9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order6.id,
       quantity: 1,
       price: 9.90,
@@ -529,7 +263,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: brownie.id,
+      itemId: "h9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order6.id,
       quantity: 1,
       price: 7.0,
@@ -541,31 +275,15 @@ async function main() {
     data: {
       status: OrderStatus.PREPARING,
       totalAmount: 51.60,
-      customerId: customer1.id,
+      customerId: "1f228665-4e55-4f0c-9537-da3ea7980511",
       createdAt: new Date('2025-08-01T10:23:40Z'),
     },
-  });
-
-  const payment7 = await prisma.payment.create({
-    data: {
-      status: PaymentStatus.APPROVED,
-      type: PaymentType.PIX,
-      orderId: order7.id,
-      qrCode: "00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b615204000053039865406157.205802BR5925DIkGwOMywWUXuWnQWchGHFiZE6009Sao Paulo62230519mpqrinter1340016447630411F6",
-      mercadoPagoPaymentId: "1340016447",
-    },
-  });
-
-  // Atualizar o orderId do payment7
-  await prisma.payment.update({
-    where: { id: payment7.id },
-    data: { orderId: order7.id },
   });
 
   // Adicionar itens ao pedido 7
   await prisma.orderItem.create({
     data: {
-      itemId: onionRings.id,
+      itemId: "e9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order7.id,
       quantity: 1,
       price: 15.90,
@@ -574,7 +292,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: juice.id,
+      itemId: "f9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order7.id,
       quantity: 1,
       price: 9.90,
@@ -583,7 +301,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: iceCream.id,
+      itemId: "d9f43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order7.id,
       quantity: 2,
       price: 12.90,
@@ -595,31 +313,15 @@ async function main() {
     data: {
       status: OrderStatus.RECEIVED,
       totalAmount: 65.70,
-      customerId: customer1.id,
+      customerId: "1f228665-4e55-4f0c-9537-da3ea7980511",
       createdAt: new Date('2025-08-01T10:40:40Z'),
     },
-  });
-
-  const payment8 = await prisma.payment.create({
-    data: {
-      status: PaymentStatus.APPROVED,
-      type: PaymentType.PIX,
-      orderId: order8.id,
-      qrCode: "00020126580014br.gov.bcb.pix0136b76aa9c2-2ec4-4110-954e-ebfe34f05b615204000053039865406157.205802BR5925DIkGwOMywWUXuWnQWchGHFiZE6009Sao Paulo62230519mpqrinter1340016447630411F6",
-      mercadoPagoPaymentId: "1340016447",
-    },
-  });
-
-  // Atualizar o orderId do payment8
-  await prisma.payment.update({
-    where: { id: payment8.id },
-    data: { orderId: order8.id },
   });
 
   // Adicionar itens ao pedido 8
   await prisma.orderItem.create({
     data: {
-      itemId: veggieburger.id,
+      itemId: "g9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order8.id,
       quantity: 1,
       price: 24.90,
@@ -628,7 +330,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: juice.id,
+      itemId: "f9d43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order8.id,
       quantity: 2,
       price: 9.90,
@@ -637,7 +339,7 @@ async function main() {
 
   await prisma.orderItem.create({
     data: {
-      itemId: brownie.id,
+      itemId: "d9f43512-bfcc-4592-bb42-1e2f630f29a0",
       orderId: order8.id,
       quantity: 3,
       price: 7.00,
@@ -651,12 +353,12 @@ async function main() {
 // Função para limpar o banco antes de inserir novos dados
 async function cleanDatabase() {
   // A ordem é importante devido às chaves estrangeiras
-  await prisma.payment.deleteMany({});
-  await prisma.customer.deleteMany({});
+  //await prisma.payment.deleteMany({});
+  //await prisma.customer.deleteMany({});
   await prisma.orderItem.deleteMany({});
-  await prisma.item.deleteMany({});
-  await prisma.internalUser.deleteMany({});
-  await prisma.role.deleteMany({});
+  //await prisma.item.deleteMany({});
+  //await prisma.internalUser.deleteMany({});
+  //await prisma.role.deleteMany({});
   await prisma.order.deleteMany({});
 }
 
