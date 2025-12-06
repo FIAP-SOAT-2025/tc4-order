@@ -1,4 +1,5 @@
-import { Order as PrismaOrder, OrderItem as PrismaOrderItem, Payment as PrismaPayment } from '@prisma/client';
+import { Order as PrismaOrder, OrderItem as PrismaOrderItem } from '@prisma/client';
+
 import { Decimal } from '@prisma/client/runtime/library';
 import Order from 'src/order/entities/order.entity';
 import { OrderStatusEnum } from 'src/order/enums/orderStatus.enum';
@@ -6,7 +7,6 @@ import { OrderItemProps } from 'src/order/entities/orderItem.entity';
 
 export type PrismaOrderWithItems = PrismaOrder & {
   orderItems: PrismaOrderItem[];
-  payment?: PrismaPayment | null;
 };
 
 export type PrismaOrderItemWithDecimal = {
@@ -29,7 +29,6 @@ export type RawQueryOrderResult = {
     quantity: number;
     price: Decimal;
   }>;
-  payment?: any;
 };
 
 export class OrderPersistenceMapper {
