@@ -10,7 +10,7 @@ export default class FindOrderByIdUseCase {
     orderGateway: OrderGatewayInterface,
   ): Promise<Order> {
     const order = await orderGateway.getOrderForId(id);
-
+    
     if (!order) {
       throw new BaseException(
         `Order with id ${id} not found`,
@@ -18,13 +18,6 @@ export default class FindOrderByIdUseCase {
         'ORDER_NOT_FOUND',
       );
     }
-
-    const orderFinal = Order.create(order as unknown as OrderProps);
-    
-   /* if (!orderFinal.payment && order.payment) {
-      orderFinal.addPayment(order.payment);
-    } */
-
-    return orderFinal;
+    return order;
   }
 }

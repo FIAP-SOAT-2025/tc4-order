@@ -11,9 +11,7 @@ export class CustomerGateway implements CustomerGatewayInterface {
 
   async findByCpf(cpf: string): Promise<CustomerExternallyResponse | null> {
     console.log("cpf no gateway:", cpf);
-    console.log("customerClient definido?", !!this.customerClient);
-    console.log("customerClient tipo:", typeof this.customerClient);
-
+  
     try {
       const customer: CustomerExternallyResponse | null = await this.customerClient.findByCpfExternally(cpf);
         if (!customer) {

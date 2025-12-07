@@ -105,10 +105,9 @@ export class OrderApi {
      };
      return payment;
    }
-   @Patch('/order/item/quantity')
-    updateItemQuantity(@Body() data: { quantity: number, itemId: string }): void {
-      console.log(`Entrei controller na rota de atualizar quantidade do item ID: ${data.itemId} para ${data.quantity}`);
-      // Aqui você chamaria o caso de uso ou gateway para atualizar a quantidade do item
+   @Patch('/item/:id')
+    updateItemQuantity(@Param('id') id: string, @Body()  quantity: number): void {
+      console.log(`Entrei controller na rota de atualizar quantidade do item ID: ${id} para ${quantity}`);
       return;
     }
 

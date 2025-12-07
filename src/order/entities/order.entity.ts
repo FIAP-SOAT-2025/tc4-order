@@ -2,14 +2,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { OrderStatusEnum } from '../enums/orderStatus.enum';
 import { OrderItem, OrderItemProps } from './orderItem.entity';
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
-//import { Payment } from './payment/payment.entity';
 
 export interface OrderProps {
   id?: string;
   status?: OrderStatusEnum;
   customerId?: string;
   orderItems: OrderItemProps[];
-  //payment?: Payment;
   totalAmount?: number;
   createdAt?: Date;
   updatedAt?: Date;
@@ -28,7 +26,6 @@ export default class Order {
   updatedAt: Date;
   customerId?: string;
   orderItems: OrderItem[];
-  //payment?: PaymentInterface;
 
   private constructor(props: OrderProps) {
     this.id = props.id ?? uuidv4();
@@ -50,9 +47,6 @@ export default class Order {
     return new Order(props);
   }
 
-  /*addPayment(payment: Payment) {
-    this.payment = payment;
-  }*/
 
   updateOrderStatus(newStatus: OrderStatusEnum): void {
     const statusOrder = [
@@ -93,7 +87,7 @@ export default class Order {
     if (!orderItems || orderItems.length === 0) {
       throw new Error('No order items provided');
     }
-
+    
     const totalCents = orderItems.reduce((total, item) => {
       if (!item.price || !item.quantity) {
         throw new Error(
