@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import OrderItemPresenter from '../../presenters/orderItemToJson.presenter';
+import OrderItemPresenter from 'src/order/presenters/orderItemToJson.presenter';
 
 describe('OrderItemPresenter', () => {
   describe('formatOrderItemToJson', () => {
