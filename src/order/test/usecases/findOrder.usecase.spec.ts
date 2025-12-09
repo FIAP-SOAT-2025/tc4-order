@@ -18,11 +18,10 @@ describe('FindOrderByIdUseCase', () => {
 
   describe('findOrder', () => {
     it('should return order when it exists', async () => {
-      const mockOrderData = {
+      const mockOrder = Order.create({
         id: 'order-123',
         customerId: 'customer-456',
-        status: 'PENDING',
-        totalAmount: 100.0,
+        status: 'PENDING' as any,
         orderItems: [
           {
             itemId: 'item-1',
@@ -30,11 +29,9 @@ describe('FindOrderByIdUseCase', () => {
             price: 50.0,
           },
         ],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      });
 
-      orderGateway.getOrderForId.mockResolvedValue(mockOrderData as any);
+      orderGateway.getOrderForId.mockResolvedValue(mockOrder);
 
       const result = await FindOrderByIdUseCase.findOrder('order-123', orderGateway);
 
@@ -83,7 +80,7 @@ describe('FindOrderByIdUseCase', () => {
     });
 
     it('should create Order entity from gateway data', async () => {
-      const mockOrderData = {
+      const mockOrder = Order.create({
         id: 'order-789',
         orderItems: [
           {
@@ -92,9 +89,9 @@ describe('FindOrderByIdUseCase', () => {
             price: 25.0,
           },
         ],
-      };
+      });
 
-      orderGateway.getOrderForId.mockResolvedValue(mockOrderData as any);
+      orderGateway.getOrderForId.mockResolvedValue(mockOrder);
 
       const result = await FindOrderByIdUseCase.findOrder('order-789', orderGateway);
 

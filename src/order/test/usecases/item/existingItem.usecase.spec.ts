@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import ExistingItemUseCase from '../../../usecases/item/existingItem.usecase';
+import ExistingItemUseCase from 'src/order/usecases/item/existingItem.usecase';
 import { ItemGatewayInterface } from '../../../interfaces/gateways-interfaces/item-gateway.interface';
 
 describe('ExistingItemUseCase', () => {
