@@ -13,10 +13,6 @@ export interface OrderProps {
   updatedAt?: Date;
 }
 
-export interface PaymentInterface {
-  id: string;
-  status: string;
-}
 
 export default class Order {
   id: string;
@@ -85,6 +81,7 @@ export default class Order {
 
   private _calculatePrice(orderItems: OrderItemProps[]): number {
     if (!orderItems || orderItems.length === 0) {
+      console.log("No order items provided to calculate price.");
       throw new Error('No order items provided');
     }
     

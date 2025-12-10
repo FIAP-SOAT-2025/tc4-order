@@ -1,16 +1,17 @@
 /* eslint-disable prettier/prettier */
-import ProccessOrderItemUseCase from './processOrderItem.usecase';
-import Order from '../entities/order.entity';
-import HasRepeatedOrderItemIdsUseCase from './item/hasRepeatedOrderItem.usecase';
+import ProccessOrderItemUseCase from '../processOrder/processOrderItem.usecase';
+import Order from '../../../entities/order.entity';
+import HasRepeatedOrderItemIdsUseCase from '../../item/hasRepeatedOrderItem.usecase';
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
 import { CreatePaymentUseCase } from 'src/order/usecases/payment/createPayment.usecase';
-import OrderInterface from '../interfaces/order.interface';
-import OrderPresenter from '../presenters/orderToJson.presenter';
-import { GetCustomerByCpfInterface } from '../interfaces/get-customer-by-cpf-Interface';
-import { CustomerExternallyResponse } from '../interfaces/responses-interfaces/customer-externally-response.interface';
-import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
-import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
-import { PaymentExternallyResponse } from '../interfaces/responses-interfaces/payment-response.interface';
+import OrderInterface from '../../../interfaces/order.interface';
+import OrderPresenter from '../../../presenters/orderToJson.presenter';
+import { GetCustomerByCpfInterface } from '../../../interfaces/get-customer-by-cpf-Interface';
+import { CustomerExternallyResponse } from '../../../interfaces/responses-interfaces/customer-externally-response.interface';
+import OrderGatewayInterface from '../../../interfaces/gateways-interfaces/oreder-gateways.interface';
+import { ItemGatewayInterface } from '../../../interfaces/gateways-interfaces/item-gateway.interface';
+import { PaymentExternallyResponse } from '../../../interfaces/responses-interfaces/payment-response.interface';
+import { CreatePaymentInterface } from 'src/order/interfaces/createPayment.interface';
 
 export default class ProcessOrderUseCase {
   constructor() {}
@@ -18,7 +19,7 @@ export default class ProcessOrderUseCase {
     orderData: OrderInterface,
     orderGateway: OrderGatewayInterface,
     getCustomerByCpf: GetCustomerByCpfInterface,
-    createPaymentUseCase: CreatePaymentUseCase,
+    createPaymentUseCase: CreatePaymentInterface,
     itemGateway: ItemGatewayInterface,
   ): Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
     console.log("dentro do processOrderUseCase:", orderData);
