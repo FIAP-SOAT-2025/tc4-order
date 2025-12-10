@@ -8,7 +8,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['lcov', 'text-summary', 'json-summary'],
-  testMatch: ['**/src/**/test/**/*.spec.ts'],
+  testMatch: ['**/src/**/*.spec.ts'],
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/**/*.spec.ts',
