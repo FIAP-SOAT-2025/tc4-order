@@ -14,7 +14,6 @@ export default class ProccessOrderItemUseCase {
     if (order.orderItems) {
       for (const orderItem of order.orderItems) {
         console.log("Processando item:", orderItem);
-        //busca o item na api externa de item e valida se existe e se a quantidade esta disponivel
         const itemValidated = await ValidItemOrderUseCase.validItemOrderUseCase(
           orderItem,
           itemGateway,

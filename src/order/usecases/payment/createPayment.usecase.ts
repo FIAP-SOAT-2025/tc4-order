@@ -16,8 +16,9 @@ export class CreatePaymentUseCase  {
     console.log("CreatePaymentUseCase - createPayment called with:", { email, orderId, totalAmount });
       const paymentInput: InputPayment = {
         email,
+        totalAmount,
         orderId,
-        totalAmount
+        
       };
     const provideResponse : PaymentExternallyResponse = await this.paymentGateway.createPayment(paymentInput);
     console.log("provideResponse:", provideResponse);

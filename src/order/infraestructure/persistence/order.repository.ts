@@ -44,11 +44,11 @@ export class PrismaOrderRepository implements OrderRepositoryInterface {
   async findById(id: string): Promise<Order> {
     const order = await this.prisma.order.findUnique({
       where: { id },
-      include: { orderItems: true, payment: true },
+      include: { orderItems: true},
     });
 
     if (!order) {
-      throw new NotFoundException('Order not found');
+      throw new NotFoundException('Order not found in repository');
     }
 
     return OrderPersistenceMapper.mapPrismaOrderToDomain(order);
@@ -64,26 +64,18 @@ export class PrismaOrderRepository implements OrderRepositoryInterface {
       o."createdAt",
       o."customerId",
       o."updatedAt",
-      JSON_AGG(
-        JSON_BUILD_OBJECT(
-          'itemId', oi."itemId",
-          'orderId', oi."orderId",
-          'quantity', oi.quantity,
-          'price', oi.price
-        )
-      ) AS items,
-      JSON_BUILD_OBJECT(
-        'id', p.id,
-        'status', p.status,
-        'type', p.type,
-        'mercadoPagoPaymentId', p."mercadoPagoPaymentId",
-        'qrCode', p."qrCode"
-      ) AS payment 
+        JSON_AGG(
+          JSON_BUILD_OBJECT(
+            'itemId', oi."itemId",
+            'orderId', oi."orderId",
+            'quantity', oi.quantity,
+            'price', oi.price
+          )
+      ) AS items
 FROM "Order" o
 JOIN "OrderItem" oi ON oi."orderId" = o.id
-LEFT JOIN "Payment" p ON p."orderId" = o.id
 WHERE o.status IN ('READY', 'PREPARING', 'RECEIVED')
-GROUP BY o.id, o.status, o."totalAmount", o."createdAt", o."customerId", o."updatedAt", p.id, p.status, p.type, p."mercadoPagoPaymentId", p."qrCode"
+GROUP BY o.id, o.status, o."totalAmount", o."createdAt", o."customerId", o."updatedAt"
 ORDER BY
   CASE o.status
     WHEN 'READY' THEN 1

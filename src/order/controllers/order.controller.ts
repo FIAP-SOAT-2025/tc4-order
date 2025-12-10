@@ -2,11 +2,11 @@
 import { OrderGateway } from '../gateways/order.gateway';
 import FindAllOrderUseCase from '../usecases/findAllOrder.usecase';
 import FindOrderByIdUseCase from '../usecases/findOrder.usecase';
-//import UpdateStatusOrderUseCase from '../usecases/updateStatusOrder.usecase';
+import UpdateStatusOrderUseCase from '../usecases/updateStatusOrder.usecase';
 import ProcessOrderUseCase from '../usecases/createOrder.usecase';
 import { OrderDto } from '../infraestructure/api/dto/order.dto';
-//import Order from '../entities/order.entity';
-//import { OrderStatusEnum } from '../enums/orderStatus.enum';
+import Order from '../entities/order.entity';
+import { OrderStatusEnum } from '../enums/orderStatus.enum';
 import OrderInterface from '../interfaces/order.interface';
 import { GetCustomerByCpfInterface } from '../interfaces/get-customer-by-cpf-Interface';
 import { CreatePaymentUseCase } from '../usecases/payment/createPayment.usecase';
@@ -14,6 +14,7 @@ import { PaymentGatewayInterface } from '../interfaces/gateways-interfaces/payme
 import OrderRepositoryInterface from '../interfaces/OrderRepository.interface';
 import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
 import { PaymentExternallyResponse } from '../interfaces/responses-interfaces/payment-response.interface';
+import { ItemGateway } from '../gateways/item.gateway';
 
 export class OrderController {
   constructor() { }
@@ -46,18 +47,18 @@ export class OrderController {
     }
   }
 
-  /*  
+   
 
   static async find(
     id: string,
-    orderRepository: OrderGatewayInterface,
+    orderRepository: OrderRepositoryInterface,
   ): Promise<Order> {
     const orderGateway = new OrderGateway(orderRepository);
     return FindOrderByIdUseCase.findOrder(id, orderGateway);
   }
 
   static async findAll(
-    orderRepository: OrderGatewayInterface,
+    orderRepository: OrderRepositoryInterface,
   ): Promise<Order[]> {
     const orderGateway = new OrderGateway(orderRepository);
     return FindAllOrderUseCase.findAll(orderGateway);
@@ -66,11 +67,10 @@ export class OrderController {
   static async updateStatus(
     id: string,
     statusDto: OrderStatusEnum,
-    orderRepository: OrderGatewayInterface,
-    itemRepository: ItemRepositoryInterface,
+    orderRepository: OrderRepositoryInterface,
+     itemGateway: ItemGatewayInterface
   ): Promise<{ message: string }> {
       const orderGateway = new OrderGateway(orderRepository);
-      const itemGateway = new ItemGateway(itemRepository);
-      return UpdateStatusOrderUseCase.updateStatusOrder(id, statusDto, orderGateway, itemGateway);
-  }*/
+      return UpdateStatusOrderUseCase.updateStatusOrder(id, statusDto, orderGateway,itemGateway);
+  }
 }

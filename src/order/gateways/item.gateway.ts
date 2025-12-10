@@ -29,4 +29,9 @@ export class ItemGateway implements ItemGatewayInterface {
         return item;
         
      }
+
+     async updateQuantity(itemId: string, quantity: number): Promise<void> {
+        console.log("Atualizando quantidade do item no gateway:", itemId, quantity);
+        await this.itemClient.updateItemQuantityExternally(itemId, quantity);
+     }
 } 
