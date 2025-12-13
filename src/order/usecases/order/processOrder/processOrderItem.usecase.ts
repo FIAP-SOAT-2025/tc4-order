@@ -1,7 +1,7 @@
-import ValidItemOrderUseCase from './validItemOrder.usecase';
-import { OrderItemProps } from '../entities/orderItem.entity';
-import OrderInterface from '../interfaces/order.interface';
-import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
+import ValidItemOrderUseCase from '../validated/validItemOrder.usecase';
+import { OrderItemProps } from '../../../entities/orderItem.entity';
+import OrderInterface from '../../../interfaces/order.interface';
+import { ItemGatewayInterface } from '../../../interfaces/gateways-interfaces/item-gateway.interface';
 
 export default class ProccessOrderItemUseCase {
   constructor() {}
@@ -20,13 +20,19 @@ export default class ProccessOrderItemUseCase {
         );
         console.log("Item validado retornado:", itemValidated);
 
-        if (!itemValidated || !itemValidated.id || itemValidated.price === undefined) {
+        if (!itemValidated || !itemValidated.id || itemValidated.price === 0 || itemValidated.price === undefined) {
+          throw new Error(`Item validation failed for item ID: ${orderItem.itemId}`);
+        }
+
+        const itemQuantity = orderItem.itemQuantity || 0;
+        
+        if (itemQuantity === 0) {
           throw new Error(`Item validation failed for item ID: ${orderItem.itemId}`);
         }
 
         processedOrderItems.push({
           itemId: itemValidated.id,
-          quantity: orderItem.itemQuantity || 0,
+          quantity: itemQuantity,
           price: itemValidated.price,
         });
       }

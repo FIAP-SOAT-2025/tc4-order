@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { OrderGateway } from '../gateways/order.gateway';
-import FindAllOrderUseCase from '../usecases/findAllOrder.usecase';
-import FindOrderByIdUseCase from '../usecases/findOrder.usecase';
-import UpdateStatusOrderUseCase from '../usecases/updateStatusOrder.usecase';
-import ProcessOrderUseCase from '../usecases/createOrder.usecase';
+import FindAllOrderUseCase from '../usecases/order/findOrder/findAllOrder.usecase';
+import FindOrderByIdUseCase from '../usecases/order/findOrder/findOrder.usecase';
+import UpdateStatusOrderUseCase from '../usecases/order/updateOrder/updateStatusOrder.usecase';
+import ProcessOrderUseCase from '../usecases/order/createOrder/createOrder.usecase';
 import { OrderDto } from '../infraestructure/api/dto/order.dto';
 import Order from '../entities/order.entity';
 import { OrderStatusEnum } from '../enums/orderStatus.enum';
