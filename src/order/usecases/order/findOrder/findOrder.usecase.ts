@@ -1,7 +1,7 @@
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
 
-import Order, { OrderProps } from '../entities/order.entity';
-import OrderGatewayInterface from '../interfaces/gateways-interfaces/oreder-gateways.interface';
+import Order, { OrderProps } from '../../../entities/order.entity';
+import OrderGatewayInterface from '../../../interfaces/gateways-interfaces/oreder-gateways.interface';
 
 export default class FindOrderByIdUseCase {
   constructor() {}

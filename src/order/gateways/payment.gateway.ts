@@ -7,7 +7,7 @@ import { PaymentClientInterface } from "../interfaces/clients-interfaces/payment
 export class PaymentGateway implements PaymentGatewayInterface {
     constructor(@Inject('PaymentClientInterface') private readonly paymentClient: PaymentClientInterface,) {}
 
-  async createPayment(input: InputPayment): Promise<PaymentExternallyResponse> {
+  async createPaymentGateway(input: InputPayment): Promise<PaymentExternallyResponse> {
     console.log("PaymentGateway - createPayment called with:", input);
     const response = await this.paymentClient.createPaymentExternal(input);
     return response;

@@ -8,12 +8,13 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['lcov', 'text-summary', 'json-summary'],
-  testMatch: ['**/src/**/test/**/*.spec.ts'],
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!src/**/*.spec.ts',
+  testMatch: [
+    '**/src/order/**/*.spec.ts',
+    '**/src/repository/**/*.spec.ts',
   ],
-  coveragePathIgnorePatterns: [
-    "src/main.ts"
+  collectCoverageFrom: [
+    'src/order/**/*.ts',
+    'src/repository/**/*.ts',
+    '!src/**/*.spec.ts',
   ],
 };

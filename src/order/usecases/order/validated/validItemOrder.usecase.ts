@@ -1,8 +1,8 @@
 import { BaseException } from 'src/shared/exceptions/exceptions.base';
-import ItemQuantityAvailableUseCase from './item/itemQuantityAvailable.usecase';
-import OrderItemInterface from '../interfaces/order-item.interface';
-import { ItemResponse } from '../interfaces/responses-interfaces/item-reponse.interface';
-import { ItemGatewayInterface } from '../interfaces/gateways-interfaces/item-gateway.interface';
+import ItemQuantityAvailableUseCase from '../../item/itemQuantityAvailable.usecase';
+import OrderItemInterface from '../../../interfaces/order-item.interface';
+import { ItemResponse } from '../../../interfaces/responses-interfaces/item-reponse.interface';
+import { ItemGatewayInterface } from '../../../interfaces/gateways-interfaces/item-gateway.interface';
 
 
 
@@ -14,7 +14,7 @@ export default class ValidItemOrderUseCase {
   ): Promise<ItemResponse> {
     console.log("itemGateway no validItemOrderUseCase:", itemGateway);
     console.log("orderItemDto no validItemOrderUseCase:", orderItemDto);
-
+    
     const itemExternal = await itemGateway.getItem(
       orderItemDto.itemId,
     );
