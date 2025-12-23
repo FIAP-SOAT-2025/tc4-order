@@ -4,6 +4,9 @@ import { OrderItem } from 'src/order/entities/orderItem.entity';
 import { OrderDto } from 'src/order/infraestructure/api/dto/order.dto';
 
 describe('OrderPresentationMapper', () => {
+
+  const fixedDate = new Date('2025-12-23T12:05:04.517Z');
+
   const mockOrderItem = {
     itemId: 'item-1',
     quantity: 2,
@@ -14,8 +17,8 @@ describe('OrderPresentationMapper', () => {
     id: 'order-1',
     status: 'CREATED',
     totalAmount: 20,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: fixedDate,
+    updatedAt: fixedDate,
     customerId: 'customer-1',
     orderItems: [mockOrderItem],
   } as unknown as Order;
@@ -171,9 +174,13 @@ describe('OrderPresentationMapper', () => {
     expect(result).toBeDefined();
     expect(result).toHaveProperty('id', mockOrder.id);
     expect(result).toHaveProperty('status', mockOrder.status);
-    expect(result).toHaveProperty('totalAmount');
-    expect(result).toHaveProperty('createdAt');
-    expect(result).toHaveProperty('updatedAt');
+
+    expect(result.totalAmount).toContain('R$');
+    expect(result.totalAmount).toContain('20');
+
+
+    expect(result.createdAt).toBe('23/12/2025');
+    expect(result.updatedAt).toBe('23/12/2025');
     expect(result).toHaveProperty('customerId', mockOrder.customerId);
 
     expect(result).toHaveProperty('orderItems');
