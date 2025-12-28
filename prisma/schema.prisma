@@ -29,7 +29,6 @@ model Order {
   customerId   String?
   orderItems   OrderItem[]
 
-   @@index([customerId],map:"idx_order_customerid" )
    @@index([status],map:"idx_order_status" )
      
 }
