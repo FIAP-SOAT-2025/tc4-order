@@ -5,7 +5,7 @@ variable "aws_region" {
 
 variable "projectName" {
   description = "The name of the project"
-  default     = "tc4-lanchonete"
+  default     = "tc4-lanchonete-v1"
 }
 
 variable "db_service_name" {
