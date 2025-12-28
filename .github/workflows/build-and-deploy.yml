@@ -13,7 +13,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  EKS_CLUSTER_NAME: eks-tc4-lanchonete-v1
+  EKS_CLUSTER_NAME: eks-tc4-lanchonete-v1-v1
   DOCKER_IMAGE: danielaqueiroz/tc4-order
   K8S_NAMESPACE: tc4-order
   K8S_DEPLOYMENT: tc4-order-api
