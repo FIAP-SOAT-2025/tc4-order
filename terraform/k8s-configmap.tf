@@ -8,9 +8,9 @@ metadata:
   namespace: tc4-order
 data:
   NODE_TLS_REJECT_UNAUTHORIZED: "0"
-  ITEM_SERVICE_URL: "http://api-service.tc4-order.svc.cluster.local"
-  CUSTOMER_SERVICE_URL: "http://api-service.tc4-order.svc.cluster.local"
-  PAYMENT_SERVICE_URL: "http://api-service.tc4-order.svc.cluster.local"
+  ITEM_SERVICE_URL: "${var.item_service_url}"
+  CUSTOMER_SERVICE_URL: "${var.customer_service_url}"
+  PAYMENT_SERVICE_URL: "${var.payment_service_url}"
 
 YAML
 }
