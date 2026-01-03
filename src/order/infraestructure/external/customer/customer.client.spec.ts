@@ -29,7 +29,7 @@ describe('CustomerClient', () => {
   describe('constructor', () => {
     it('should create axios instance with correct baseURL', () => {
       expect(mockedAxios.create).toHaveBeenCalledWith({
-        baseURL: process.env.CUSTOMER_SERVICE_URL,
+        baseURL: 'http://api-service.tc4-customer.svc.cluster.local:8080',
         headers: {
           'Content-Type': 'application/json',
         },

@@ -29,7 +29,7 @@ describe('ItemClient', () => {
   describe('constructor', () => {
     it('should create axios instance with correct configuration', () => {
       expect(mockedAxios.create).toHaveBeenCalledWith({
-        baseURL: process.env.ITEM_SERVICE_URL,
+        baseURL: 'http://api-service.tc4-item.svc.cluster.local:8080',
         headers: {
           'Content-Type': 'application/json',
         },

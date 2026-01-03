@@ -31,7 +31,7 @@ export class OrderApi {
   async createOrder(
     @Body() createOrderDto: OrderDto,
   ): Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
-    console.log("Creating order Controller API Route with DTO:", createOrderDto);
+    console.log("15:21:: Creating order Controller API Route with DTO:", createOrderDto);
     return await OrderController.createOrder(
       createOrderDto,
       this.orderRepository,
@@ -49,7 +49,7 @@ export class OrderApi {
 
   @Get()
   findAll(): Promise<Order[]> {
-      console.log(`Entrei controller na rota de buscar todas as orders ::this.orderRepository::: ${this.orderRepository}`);
+      console.log(`Entrei controller na rota de buscar todas as orders::1521 ::this.orderRepository::: ${this.orderRepository}`);
       
     return OrderController.findAll(this.orderRepository);
   }
