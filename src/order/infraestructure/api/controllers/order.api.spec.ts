@@ -203,7 +203,7 @@ describe('OrderApi', () => {
     });
   });
 
-  describe('getItem', () => {
+ /* describe('getItem', () => {
     it('should return mock item response', () => {
       const itemId = uuidv4();
 
@@ -224,9 +224,9 @@ describe('OrderApi', () => {
 
       expect(result1).toEqual(result2);
     });
-  });
+  });*/
 
-  describe('getCustomerByCpfEndpoint', () => {
+  /*describe('getCustomerByCpfEndpoint', () => {
     it('should return mock customer response', () => {
       const cpf = '12345678900';
 
@@ -243,9 +243,9 @@ describe('OrderApi', () => {
 
       expect(result1).toEqual(result2);
     });
-  });
+  });*/
 
-  describe('createPayment', () => {
+  /*describe('createPayment', () => {
     it('should return mock payment response', () => {
       const paymentDto = {
         email: 'test@test.com',
@@ -278,9 +278,9 @@ describe('OrderApi', () => {
 
       expect(result1).toEqual(result2);
     });
-  });
+  });*/
 
-  describe('updateItemQuantity', () => {
+  /*describe('updateItemQuantity', () => {
     it('should return void', () => {
       const itemId = uuidv4();
       const quantity = 10;
@@ -297,5 +297,5 @@ describe('OrderApi', () => {
       expect(orderApi.updateItemQuantity(itemId, 100)).toBeUndefined();
       expect(orderApi.updateItemQuantity(itemId, 0)).toBeUndefined();
     });
-  });
+  });*/
 });

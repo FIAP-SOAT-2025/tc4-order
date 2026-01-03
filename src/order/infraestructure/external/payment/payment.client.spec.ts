@@ -74,7 +74,7 @@ describe('PaymentClient', () => {
 
       expect(result).toEqual(expectedResponse);
       expect(mockAxiosInstance.post).toHaveBeenCalledWith(
-        '/order/payment/checkout',
+        '/payment/checkout',
         input,
       );
       expect(mockAxiosInstance.post).toHaveBeenCalledTimes(1);
@@ -100,7 +100,7 @@ describe('PaymentClient', () => {
       await paymentClient.createPaymentExternal(input);
 
       expect(mockAxiosInstance.post).toHaveBeenCalledWith(
-        '/order/payment/checkout',
+        '/payment/checkout',
         input,
       );
     });
@@ -166,7 +166,7 @@ describe('PaymentClient', () => {
 
         expect(result).toEqual(response);
         expect(mockAxiosInstance.post).toHaveBeenCalledWith(
-          '/order/payment/checkout',
+          '/payment/checkout',
           input,
         );
       }
@@ -320,7 +320,7 @@ describe('PaymentClient', () => {
       await paymentClient.createPaymentExternal(input);
 
       expect(mockAxiosInstance.post).toHaveBeenCalledWith(
-        '/order/payment/checkout',
+        '/payment/checkout',
         expect.any(Object),
       );
     });
@@ -489,7 +489,7 @@ describe('PaymentClient', () => {
 
       expect(result).toEqual(expectedResponse);
       expect(mockAxiosInstance.patch).toHaveBeenCalledWith(
-        `/order/payment-status/${paymentId}`,
+        `/payment-status/${paymentId}`,
       );
       expect(mockAxiosInstance.patch).toHaveBeenCalledTimes(1);
     });
@@ -508,7 +508,7 @@ describe('PaymentClient', () => {
       await paymentClient.getPaymentStatus(paymentId);
 
       expect(mockAxiosInstance.patch).toHaveBeenCalledWith(
-        `/order/payment-status/${paymentId}`,
+        `/payment-status/${paymentId}`,
       );
     });
 
@@ -695,7 +695,7 @@ describe('PaymentClient', () => {
       await paymentClient.getPaymentStatus(paymentId);
 
       expect(mockAxiosInstance.patch).toHaveBeenCalledWith(
-        `/order/payment-status/${paymentId}`,
+        `/payment-status/${paymentId}`,
       );
     });
 

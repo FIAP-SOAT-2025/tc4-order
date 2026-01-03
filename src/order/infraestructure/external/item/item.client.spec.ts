@@ -53,7 +53,7 @@ describe('ItemClient', () => {
       const result = await itemClient.getItemExternally(itemId);
 
       expect(result).toEqual(mockItemResponse);
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/order/item/${itemId}`);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/item/${itemId}`);
       expect(mockAxiosInstance.get).toHaveBeenCalledTimes(1);
     });
 
@@ -67,7 +67,7 @@ describe('ItemClient', () => {
       const result = await itemClient.getItemExternally(itemId);
 
       expect(result).toBeNull();
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/order/item/${itemId}`);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/item/${itemId}`);
     });
 
     it('should return null when response data is undefined', async () => {
@@ -80,7 +80,7 @@ describe('ItemClient', () => {
       const result = await itemClient.getItemExternally(itemId);
 
       expect(result).toBeNull();
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/order/item/${itemId}`);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/item/${itemId}`);
     });
 
     it('should throw error when API call fails', async () => {
@@ -92,7 +92,7 @@ describe('ItemClient', () => {
       await expect(itemClient.getItemExternally(itemId)).rejects.toThrow(
         `Error fetching item with id ${itemId}`,
       );
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/order/item/${itemId}`);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/item/${itemId}`);
     });
 
     it('should throw error on 404 error', async () => {
@@ -185,7 +185,7 @@ describe('ItemClient', () => {
 
       await itemClient.updateItemQuantityExternally(itemId, quantity);
 
-      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(`/order/item/${itemId}`, {
+      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(`/item/${itemId}`, {
         quantity,
       });
       expect(mockAxiosInstance.patch).toHaveBeenCalledTimes(1);
@@ -199,7 +199,7 @@ describe('ItemClient', () => {
 
       await itemClient.updateItemQuantityExternally(itemId, quantity);
 
-      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(`/order/item/${itemId}`, {
+      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(`/item/${itemId}`, {
         quantity: 0,
       });
     });
@@ -212,7 +212,7 @@ describe('ItemClient', () => {
 
       await itemClient.updateItemQuantityExternally(itemId, quantity);
 
-      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(`/order/item/${itemId}`, {
+      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(`/item/${itemId}`, {
         quantity: 1000,
       });
     });
@@ -228,7 +228,7 @@ describe('ItemClient', () => {
         itemClient.updateItemQuantityExternally(itemId, quantity),
       ).rejects.toThrow(`Error updating item quantity for id ${itemId}`);
 
-      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(`/order/item/${itemId}`, {
+      expect(mockAxiosInstance.patch).toHaveBeenCalledWith(`/item/${itemId}`, {
         quantity,
       });
     });
@@ -279,10 +279,10 @@ describe('ItemClient', () => {
       await itemClient.updateItemQuantityExternally(itemId2, quantity2);
 
       expect(mockAxiosInstance.patch).toHaveBeenCalledTimes(2);
-      expect(mockAxiosInstance.patch).toHaveBeenNthCalledWith(1, `/order/item/${itemId1}`, {
+      expect(mockAxiosInstance.patch).toHaveBeenNthCalledWith(1, `/item/${itemId1}`, {
         quantity: quantity1,
       });
-      expect(mockAxiosInstance.patch).toHaveBeenNthCalledWith(2, `/order/item/${itemId2}`, {
+      expect(mockAxiosInstance.patch).toHaveBeenNthCalledWith(2, `/item/${itemId2}`, {
         quantity: quantity2,
       });
     });
@@ -313,7 +313,7 @@ describe('ItemClient', () => {
 
       await itemClient.getItemExternally(itemId);
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/order/item/${itemId}`);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith(`/item/${itemId}`);
     });
 
     it('should call correct endpoint for updateItemQuantityExternally', async () => {
@@ -325,7 +325,7 @@ describe('ItemClient', () => {
       await itemClient.updateItemQuantityExternally(itemId, quantity);
 
       expect(mockAxiosInstance.patch).toHaveBeenCalledWith(
-        `/order/item/${itemId}`,
+        `/item/${itemId}`,
         expect.any(Object),
       );
     });

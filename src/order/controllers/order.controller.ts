@@ -28,7 +28,7 @@ export class OrderController {
   ): Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
     const orderGateway = new OrderGateway(orderRepository);
     const createPaymentUseCase = new CreatePaymentUseCase(paymentGateway);
-
+    
     try {
 
       const response = await ProcessOrderUseCase.processOrder(
