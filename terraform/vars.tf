@@ -59,5 +59,5 @@ variable "customer_service_url" {
 variable "payment_service_url" {
   description = "URL do serviço de Payments"
   type        = string
-  default     = "http://api-service.tc4-payment.svc.cluster.local"
+  default     = "http://api-service.tc4-payments.svc.cluster.local"
 }
