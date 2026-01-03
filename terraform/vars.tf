@@ -32,13 +32,6 @@ variable "db_password" {
   sensitive   = true
 }
 
-variable "access_token" {
-  description = "O Access Token para integração com APIs externas."
-  type        = string
-  sensitive   = true
-}
-
-
 variable "db_name" {
   description = "O nome do banco de dados inicial a ser criado na instância RDS."
   type        = string
