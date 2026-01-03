@@ -16,14 +16,14 @@ export class PaymentClient implements PaymentClientInterface {
     }
     async createPaymentExternal(data: InputPayment): Promise<PaymentExternallyResponse> {
         console.log("Calling external payment service with data:", data);
-        const response = await this.api.post('/order/payment/checkout', data);
+        const response = await this.api.post('/payment/checkout', data);
         console.log("External payment service response:", response);
         return response.data;
     }
 
 
     async getPaymentStatus(paymentId: string): Promise<PaymentExternallyResponse> {
-        const response = await this.api.patch(`/order/payment-status/${paymentId}`);
+        const response = await this.api.patch(`/payment-status/${paymentId}`);
         return response.data;
     }
 

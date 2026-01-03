@@ -1,4 +1,4 @@
-name: "Terraform Deploy - tc4-order"
+name: "Deploy Completo - tc4-order"
 
 on:
   workflow_dispatch:
@@ -11,17 +11,15 @@ on:
         - deploy
         - destroy
         default: 'deploy'
-  push:
-    branches:
-      - main
-    paths:
-      - 'terraform/**'
-      - '.github/workflows/terraform-deploy.yml'
 
 env:
   AWS_REGION: us-east-1
   TF_VERSION: 1.9.0
   WORKING_DIR: ./terraform
+  EKS_CLUSTER_NAME: eks-tc4-lanchonete-v1-v1
+  DOCKER_IMAGE: danielaqueiroz/tc4-order
+  K8S_NAMESPACE: tc4-order
+  K8S_DEPLOYMENT: tc4-order-api
 
 jobs:
   terraform-deploy:
@@ -39,6 +37,9 @@ jobs:
       TF_VAR_db_password: ${{ secrets.DB_PASSWORD }}
       TF_VAR_db_name: ${{ secrets.DB_NAME }}
       TF_VAR_access_token: ${{ secrets.ACCESS_TOKEN }}
+      TF_VAR_item_service_url: ${{ secrets.ITEM_SERVICE_URL }}
+      TF_VAR_customer_service_url: ${{ secrets.CUSTOMER_SERVICE_URL }}
+      TF_VAR_payment_service_url: ${{ secrets.PAYMENT_SERVICE_URL }}
 
     steps:
       - name: Checkout Code
@@ -83,6 +84,103 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: terraform output -json
 
+  deploy-to-eks:
+    name: 'Deploy to EKS'
+    needs: terraform-deploy
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
+          kubectl version --client
+          kubectl cluster-info
+
+      - name: Verify cluster access
+        run: |
+          echo "Verificando conexão com o cluster..."
+          kubectl get nodes
+
+      - name: Check namespace exists
+        run: |
+          if ! kubectl get namespace ${{ env.K8S_NAMESPACE }} 2>/dev/null; then
+            echo "❌ Namespace ${{ env.K8S_NAMESPACE }} não existe!"
+            echo "Isso não deveria acontecer pois o Terraform acabou de criar."
+            exit 1
+          fi
+          echo "✅ Namespace ${{ env.K8S_NAMESPACE }} existe"
+
+      - name: Wait for deployment to be ready
+        run: |
+          echo "Aguardando deployment estar pronto..."
+          kubectl wait --for=condition=available --timeout=5m deployment/${{ env.K8S_DEPLOYMENT }} -n ${{ env.K8S_NAMESPACE }}
+          echo "✅ Deployment está disponível"
+
+      - name: Restart deployment (atualizar pods com nova imagem)
+        run: |
+          echo "Reiniciando deployment para puxar nova imagem do Docker Hub..."
+          kubectl rollout restart deployment/${{ env.K8S_DEPLOYMENT }} -n ${{ env.K8S_NAMESPACE }}
+          echo "Rolling update iniciado..."
+
+      - name: Wait for rollout to complete
+        run: |
+          kubectl rollout status deployment/${{ env.K8S_DEPLOYMENT }} -n ${{ env.K8S_NAMESPACE }} --timeout=5m
+          echo "✅ Deployment atualizado com sucesso"
+
+      - name: Verify pods are running
+        run: |
+          echo "Verificando status dos pods..."
+          kubectl get pods -n ${{ env.K8S_NAMESPACE }} -l app=${{ env.K8S_DEPLOYMENT }}
+          
+          # Aguardar pods estarem prontos
+          kubectl wait --for=condition=ready pod -l app=${{ env.K8S_DEPLOYMENT }} -n ${{ env.K8S_NAMESPACE }} --timeout=5m
+          echo "✅ Todos os pods estão prontos"
+
+      - name: Get deployment info
+        run: |
+          echo "=== Status do Deployment ==="
+          kubectl get deployment ${{ env.K8S_DEPLOYMENT }} -n ${{ env.K8S_NAMESPACE }}
+          
+          echo ""
+          echo "=== Pods ==="
+          kubectl get pods -n ${{ env.K8S_NAMESPACE }} -l app=${{ env.K8S_DEPLOYMENT }}
+          
+          echo ""
+          echo "=== Service ==="
+          kubectl get service api-service -n ${{ env.K8S_NAMESPACE }}
+          
+          echo ""
+          echo "=== Recent Events ==="
+          kubectl get events -n ${{ env.K8S_NAMESPACE }} --sort-by='.lastTimestamp' | tail -10
+
+      - name: Get Load Balancer URL
+        run: |
+          LB_HOSTNAME=$(kubectl get service api-service -n ${{ env.K8S_NAMESPACE }} -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+          if [ -n "$LB_HOSTNAME" ]; then
+            echo "✅ Load Balancer URL: http://$LB_HOSTNAME"
+          else
+            echo "⚠️ Load Balancer hostname ainda não está disponível"
+          fi
+
+      - name: Success notification
+        run: |
+          echo "🎉 Deploy completo realizado com sucesso!"
+          echo "✅ Infraestrutura criada/atualizada (Terraform)"
+          echo "✅ Aplicação deployada no EKS"
+          echo "✅ Pods estão saudáveis e rodando"
+
   terraform-destroy:
     name: 'Terraform Destroy'
     if: github.event.inputs.action == 'destroy'
@@ -97,6 +195,9 @@ jobs:
       TF_VAR_db_password: ${{ secrets.DB_PASSWORD }}
       TF_VAR_db_name: ${{ secrets.DB_NAME }}
       TF_VAR_access_token: ${{ secrets.ACCESS_TOKEN }}
+      TF_VAR_item_service_url: ${{ secrets.ITEM_SERVICE_URL }}
+      TF_VAR_customer_service_url: ${{ secrets.CUSTOMER_SERVICE_URL }}
+      TF_VAR_payment_service_url: ${{ secrets.PAYMENT_SERVICE_URL }}
 
     steps:
       - name: Checkout Code

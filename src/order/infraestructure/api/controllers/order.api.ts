@@ -73,7 +73,7 @@ export class OrderApi {
 
 
 //comunicação externa simulada
-   @Get('/item/:id')
+   /*@Get('/item/:id')
    getItem(@Param('id') id: string): ItemResponse | null {
      console.log(`Entrei controller na rota de buscar item ID: ${id}`);
      const item: ItemResponse = {
@@ -109,7 +109,7 @@ export class OrderApi {
     updateItemQuantity(@Param('id') id: string, @Body()  quantity: number): void {
       console.log(`Entrei controller na rota de atualizar quantidade do item ID: ${id} para ${quantity}`);
       return;
-    }
+    }*/
 
 
 }

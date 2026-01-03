@@ -43,3 +43,21 @@ variable "db_name" {
   description = "O nome do banco de dados inicial a ser criado na instância RDS."
   type        = string
 }
+
+variable "item_service_url" {
+  description = "URL do serviço de Items"
+  type        = string
+  default     = "http://api-service.tc4-order.svc.cluster.local"
+}
+
+variable "customer_service_url" {
+  description = "URL do serviço de Customers"
+  type        = string
+  default     = "http://api-service.tc4-order.svc.cluster.local"
+}
+
+variable "payment_service_url" {
+  description = "URL do serviço de Payments"
+  type        = string
+  default     = "http://api-service.tc4-order.svc.cluster.local"
+}

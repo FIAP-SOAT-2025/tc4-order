@@ -19,7 +19,7 @@ export class ItemClient implements ItemClientInterface {
         try {
             console.log("Chamando serviço externo de itens com ID:", id);
             console.log("URL da API getItemExternally:", this.api.defaults.baseURL); 
-            const response = await this.api.get(`/order/item/${id}`);
+            const response = await this.api.get(`/item/${id}`);
 
             console.log("Resposta do serviço de itens:", response.data);
             if (!response.data) {
@@ -35,7 +35,7 @@ export class ItemClient implements ItemClientInterface {
         try {
             console.log("Chamando serviço externo para atualizar quantidade do item:", itemId, quantity); 
             console.log("URL da API updateItemQuantityExternally:", this.api.defaults.baseURL);      
-            await this.api.patch(`/order/item/${itemId}`, { quantity });
+            await this.api.patch(`/item/${itemId}`, { quantity });
         } catch (error) {
             console.error(`Error updating item quantity for id ${itemId}:`, JSON.stringify(error));
             throw new Error(`Error updating item quantity for id ${itemId} - ${JSON.stringify(error)}`);
