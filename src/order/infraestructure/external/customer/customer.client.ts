@@ -9,7 +9,7 @@ export class CustomerClient implements CustomerClientInterface {
 
   constructor() {
     this.api = axios.create({
-      baseURL: process.env.CUSTOMER_SERVICE_URL,
+      baseURL: "http://api-service.tc4-customer.svc.cluster.local:8080",
       headers: {
         'Content-Type': 'application/json',
       },
