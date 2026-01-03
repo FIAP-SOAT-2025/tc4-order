@@ -9,7 +9,7 @@ export class ItemClient implements ItemClientInterface {
     private readonly api: AxiosInstance;
     constructor() {
         this.api = axios.create({
-            baseURL: process.env.ITEM_SERVICE_URL,
+            baseURL: "http://api-service.tc4-item.svc.cluster.local:8080",
             headers: {
                 "Content-Type": "application/json",
             },

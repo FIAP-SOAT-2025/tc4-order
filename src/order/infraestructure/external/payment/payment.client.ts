@@ -8,7 +8,7 @@ export class PaymentClient implements PaymentClientInterface {
     private readonly api: AxiosInstance;
     constructor() {
         this.api = axios.create({
-            baseURL: process.env.PAYMENT_SERVICE_URL,
+            baseURL: "http://api-service.tc4-payment.svc.cluster.local:8080",
             headers: {
                 "Content-Type": "application/json",
             },
