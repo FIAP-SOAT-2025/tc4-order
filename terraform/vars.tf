@@ -47,17 +47,17 @@ variable "db_name" {
 variable "item_service_url" {
   description = "URL do serviço de Items"
   type        = string
-  default     = "http://api-service.tc4-item.svc.cluster.local"
+  default     = "http://api-service.tc4-item.svc.cluster.local:8080"
 }
 
 variable "customer_service_url" {
   description = "URL do serviço de Customers"
   type        = string
-  default     = "http://api-service.tc4-customer.svc.cluster.local"
+  default     = "http://api-service.tc4-customer.svc.cluster.local:8080"
 }
 
 variable "payment_service_url" {
   description = "URL do serviço de Payments"
   type        = string
-  default     = "http://api-service.tc4-payments.svc.cluster.local"
+  default     = "http://api-service.tc4-payments.svc.cluster.local:8080"
 }
