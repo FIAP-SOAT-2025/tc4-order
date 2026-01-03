@@ -22,7 +22,7 @@ export default class ProcessOrderUseCase {
     createPaymentUseCase: CreatePaymentInterface,
     itemGateway: ItemGatewayInterface,
   ): Promise<{ order: OrderInterface; payment: PaymentExternallyResponse }> {
-    console.log("UM NOVO LOG:1804:::dentro do processOrderUseCase:", orderData);
+    console.log("UM NOVO LOG:15:20:::dentro do processOrderUseCase:", orderData);
     let customer: CustomerExternallyResponse | undefined;
 
     if (orderData.orderItems) {
