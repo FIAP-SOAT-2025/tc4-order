@@ -33,7 +33,7 @@ describe('PaymentClient', () => {
   describe('constructor', () => {
     it('should create axios instance with correct baseURL', () => {
       expect(mockedAxios.create).toHaveBeenCalledWith({
-        baseURL: process.env.PAYMENT_SERVICE_URL,
+        baseURL: 'http://api-service.tc4-payment.svc.cluster.local:8080',
         headers: {
           'Content-Type': 'application/json',
         },
