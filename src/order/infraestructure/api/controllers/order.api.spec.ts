@@ -83,6 +83,63 @@ describe('OrderApi', () => {
 
       expect(result).toEqual(expectedResponse);
     });
+
+    it('should throw error when OrderController.createOrder fails', async () => {
+      const orderDto: OrderDto = {
+        customerCpf: '11111111111',
+        orderItems: [{ itemId: uuidv4(), itemQuantity: 1 }],
+      };
+
+      const error = new BaseException('Customer not found', 404, 'CUSTOMER_NOT_FOUND');
+      (OrderController.createOrder as jest.Mock).mockRejectedValue(error);
+
+      await expect(orderApi.createOrder(orderDto)).rejects.toThrow(error);
+    });
+
+    it('should handle multiple order items', async () => {
+      const orderDto: OrderDto = {
+        customerCpf: '12345678900',
+        orderItems: [
+          { itemId: uuidv4(), itemQuantity: 2 },
+          { itemId: uuidv4(), itemQuantity: 3 },
+        ],
+      };
+
+      const mockResult = {
+        order: { id: uuidv4(), totalAmount: 150.0 },
+        payment: { paymentId: '789', status: 'approved' },
+      };
+
+      (OrderController.createOrder as jest.Mock).mockResolvedValue(mockResult);
+
+      const result = await orderApi.createOrder(orderDto);
+
+      expect(result).toEqual(mockResult);
+      expect(OrderController.createOrder).toHaveBeenCalledWith(
+        orderDto,
+        mockOrderRepository,
+        mockGetCustomerByCpf,
+        mockItemGateway,
+        mockPaymentGateway,
+      );
+    });
+
+    it('should handle order without customer CPF', async () => {
+      const orderDto: OrderDto = {
+        orderItems: [{ itemId: uuidv4(), itemQuantity: 1 }],
+      };
+
+      const mockResult = {
+        order: { id: uuidv4() },
+        payment: { paymentId: '999', status: 'pending' },
+      };
+
+      (OrderController.createOrder as jest.Mock).mockResolvedValue(mockResult);
+
+      const result = await orderApi.createOrder(orderDto);
+
+      expect(result).toEqual(mockResult);
+    });
   });
 
   describe('find', () => {
@@ -113,6 +170,41 @@ describe('OrderApi', () => {
       const result = await orderApi.find(orderId);
 
       expect(result.id).toBe(orderId);
+    });
+
+    it('should throw error when order not found', async () => {
+      const orderId = uuidv4();
+      const error = new BaseException('Order not found', 404, 'ORDER_NOT_FOUND');
+
+      (OrderController.find as jest.Mock).mockRejectedValue(error);
+
+      await expect(orderApi.find(orderId)).rejects.toThrow(error);
+    });
+
+    it('should handle invalid order id', async () => {
+      const invalidId = 'invalid-uuid';
+      const error = new BaseException('Invalid order ID', 400, 'INVALID_ID');
+
+      (OrderController.find as jest.Mock).mockRejectedValue(error);
+
+      await expect(orderApi.find(invalidId)).rejects.toThrow(error);
+    });
+
+    it('should return complete order with items', async () => {
+      const orderId = uuidv4();
+      const mockOrder = {
+        id: orderId,
+        status: OrderStatusEnum.PREPARING,
+        totalAmount: 100.0,
+        orderItems: [{ itemId: uuidv4(), quantity: 2, price: 50.0 }],
+      } as any;
+
+      (OrderController.find as jest.Mock).mockResolvedValue(mockOrder);
+
+      const result = await orderApi.find(orderId);
+
+      expect(result.orderItems).toBeDefined();
+      expect(result.orderItems.length).toBeGreaterThan(0);
     });
   });
 
@@ -147,6 +239,33 @@ describe('OrderApi', () => {
       const result = await orderApi.findAll();
 
       expect(result).toHaveLength(2);
+    });
+
+    it('should throw error when repository fails', async () => {
+      const error = new BaseException('Database error', 500, 'DB_ERROR');
+
+      (OrderController.findAll as jest.Mock).mockRejectedValue(error);
+
+      await expect(orderApi.findAll()).rejects.toThrow(error);
+    });
+
+    it('should return orders with different statuses', async () => {
+      const mockOrders = [
+        { id: uuidv4(), status: OrderStatusEnum.RECEIVED },
+        { id: uuidv4(), status: OrderStatusEnum.PREPARING },
+        { id: uuidv4(), status: OrderStatusEnum.READY },
+        { id: uuidv4(), status: OrderStatusEnum.COMPLETED },
+      ] as any[];
+
+      (OrderController.findAll as jest.Mock).mockResolvedValue(mockOrders);
+
+      const result = await orderApi.findAll();
+
+      expect(result).toHaveLength(4);
+      expect(result.map(o => o.status)).toContain(OrderStatusEnum.RECEIVED);
+      expect(result.map(o => o.status)).toContain(OrderStatusEnum.PREPARING);
+      expect(result.map(o => o.status)).toContain(OrderStatusEnum.READY);
+      expect(result.map(o => o.status)).toContain(OrderStatusEnum.COMPLETED);
     });
   });
 
@@ -201,101 +320,61 @@ describe('OrderApi', () => {
       expect(result).toEqual(mockUpdatedOrder);
       expect(mockUpdatedOrder.status).toBe(OrderStatusEnum.COMPLETED);
     });
+
+    it('should update status to RECEIVED', async () => {
+      const orderId = uuidv4();
+      const statusDto = { status: OrderStatusEnum.RECEIVED };
+      const mockUpdatedOrder = { id: orderId, status: OrderStatusEnum.RECEIVED } as any;
+
+      (OrderController.updateStatus as jest.Mock).mockResolvedValue(
+        mockUpdatedOrder,
+      );
+
+      const result = await orderApi.updateStatus(orderId, statusDto);
+
+      expect((result as any).status).toBe(OrderStatusEnum.RECEIVED);
+    });
+
+    it('should update status to READY', async () => {
+      const orderId = uuidv4();
+      const statusDto = { status: OrderStatusEnum.READY };
+      const mockUpdatedOrder = { id: orderId, status: OrderStatusEnum.READY } as any;
+
+      (OrderController.updateStatus as jest.Mock).mockResolvedValue(
+        mockUpdatedOrder,
+      );
+
+      const result = await orderApi.updateStatus(orderId, statusDto);
+
+      expect((result as any).status).toBe(OrderStatusEnum.READY);
+    });
+
+    it('should update status to CANCELLED', async () => {
+      const orderId = uuidv4();
+      const statusDto = { status: OrderStatusEnum.CANCELLED };
+      const mockUpdatedOrder = { id: orderId, status: OrderStatusEnum.CANCELLED } as any;
+
+      (OrderController.updateStatus as jest.Mock).mockResolvedValue(
+        mockUpdatedOrder,
+      );
+
+      const result = await orderApi.updateStatus(orderId, statusDto);
+
+      expect((result as any).status).toBe(OrderStatusEnum.CANCELLED);
+    });
+
+    it('should call ExceptionMapper when any error occurs', async () => {
+      const orderId = uuidv4();
+      const statusDto = { status: OrderStatusEnum.PREPARING };
+      const error = new BaseException('Invalid status transition', 400, 'INVALID_TRANSITION');
+
+      (OrderController.updateStatus as jest.Mock).mockRejectedValue(error);
+      (ExceptionMapper.mapToHttpException as jest.Mock).mockImplementation((err) => {
+        throw err;
+      });
+
+      await expect(orderApi.updateStatus(orderId, statusDto)).rejects.toThrow(error);
+      expect(ExceptionMapper.mapToHttpException).toHaveBeenCalledWith(error);
+    });
   });
-
- /* describe('getItem', () => {
-    it('should return mock item response', () => {
-      const itemId = uuidv4();
-
-      const result = orderApi.getItem(itemId);
-
-      expect(result).toBeDefined();
-      expect(result?.id).toBe('550e8400-e29b-41d4-a716-446655440000');
-      expect(result?.quantity).toBe(100);
-      expect(result?.price).toBe(22.90);
-    });
-
-    it('should always return same mock item regardless of id', () => {
-      const itemId1 = uuidv4();
-      const itemId2 = uuidv4();
-
-      const result1 = orderApi.getItem(itemId1);
-      const result2 = orderApi.getItem(itemId2);
-
-      expect(result1).toEqual(result2);
-    });
-  });*/
-
-  /*describe('getCustomerByCpfEndpoint', () => {
-    it('should return mock customer response', () => {
-      const cpf = '12345678900';
-
-      const result = orderApi.getCustomerByCpfEndpoint(cpf);
-
-      expect(result).toBeDefined();
-      expect(result?.id).toBe('1f228665-4e55-4f0c-9537-da3ea7980511');
-      expect(result?.email).toBe('john.doe@example.com');
-    });
-
-    it('should always return same mock customer regardless of cpf', () => {
-      const result1 = orderApi.getCustomerByCpfEndpoint('11111111111');
-      const result2 = orderApi.getCustomerByCpfEndpoint('99999999999');
-
-      expect(result1).toEqual(result2);
-    });
-  });*/
-
-  /*describe('createPayment', () => {
-    it('should return mock payment response', () => {
-      const paymentDto = {
-        email: 'test@test.com',
-        orderId: uuidv4(),
-        totalAmount: 100,
-      };
-
-      const result = orderApi.createPayment(paymentDto);
-
-      expect(result).toBeDefined();
-      expect(result.paymentId).toBe('123');
-      expect(result.status).toBe('approved');
-    });
-
-    it('should always return same mock payment response', () => {
-      const paymentDto1 = {
-        email: 'user1@test.com',
-        orderId: uuidv4(),
-        totalAmount: 50,
-      };
-
-      const paymentDto2 = {
-        email: 'user2@test.com',
-        orderId: uuidv4(),
-        totalAmount: 200,
-      };
-
-      const result1 = orderApi.createPayment(paymentDto1);
-      const result2 = orderApi.createPayment(paymentDto2);
-
-      expect(result1).toEqual(result2);
-    });
-  });*/
-
-  /*describe('updateItemQuantity', () => {
-    it('should return void', () => {
-      const itemId = uuidv4();
-      const quantity = 10;
-
-      const result = orderApi.updateItemQuantity(itemId, quantity);
-
-      expect(result).toBeUndefined();
-    });
-
-    it('should handle different quantities', () => {
-      const itemId = uuidv4();
-
-      expect(orderApi.updateItemQuantity(itemId, 1)).toBeUndefined();
-      expect(orderApi.updateItemQuantity(itemId, 100)).toBeUndefined();
-      expect(orderApi.updateItemQuantity(itemId, 0)).toBeUndefined();
-    });
-  });*/
 });

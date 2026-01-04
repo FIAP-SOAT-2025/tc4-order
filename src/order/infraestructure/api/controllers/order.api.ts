@@ -70,46 +70,4 @@ export class OrderApi {
     }
   }
 
-
-
-//comunicação externa simulada
-   /*@Get('/item/:id')
-   getItem(@Param('id') id: string): ItemResponse | null {
-     console.log(`Entrei controller na rota de buscar item ID: ${id}`);
-     const item: ItemResponse = {
-       id: '550e8400-e29b-41d4-a716-446655440000',
-       quantity: 100,
-       price: 22.90,
-     };
-
-     return item;
-   }
-
-   @Get('/customer/cpf/:cpf')
-   getCustomerByCpfEndpoint(@Param('cpf') cpf: string): CustomerExternallyResponse | null {
-     console.log(`Entrei controller na rota de buscar CPF: ${cpf}`);
-     const customer: CustomerExternallyResponse = {
-       id: '1f228665-4e55-4f0c-9537-da3ea7980511',
-       email: 'john.doe@example.com'
-     };
-
-     return customer;
-   }
-
-   @Post('/payment/checkout')
-   createPayment(@Body() paymentDto: InputPayment): PaymentExternallyResponse {
-     console.log(`Entrei controller na rota de criar pagamento:`, paymentDto);
-     const payment: PaymentExternallyResponse = {
-       paymentId: '123',
-       status: 'approved',
-     };
-     return payment;
-   }
-   @Patch('/item/:id')
-    updateItemQuantity(@Param('id') id: string, @Body()  quantity: number): void {
-      console.log(`Entrei controller na rota de atualizar quantidade do item ID: ${id} para ${quantity}`);
-      return;
-    }*/
-
-
 }
