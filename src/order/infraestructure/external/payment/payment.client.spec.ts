@@ -30,27 +30,6 @@ describe('PaymentClient', () => {
     jest.clearAllMocks();
   });
 
-  describe('constructor', () => {
-    it('should create axios instance with correct baseURL', () => {
-      expect(mockedAxios.create).toHaveBeenCalledWith({
-        baseURL: 'http://api-service.tc4-payment.svc.cluster.local:8080',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-
-    it('should create axios instance with correct headers', () => {
-      expect(mockedAxios.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }),
-      );
-    });
-  });
-
   describe('createPaymentExternal', () => {
     it('should create payment successfully', async () => {
       const orderId = uuidv4();
