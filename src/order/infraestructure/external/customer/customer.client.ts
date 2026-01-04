@@ -20,9 +20,9 @@ export class CustomerClient implements CustomerClientInterface {
     try {
       console.log("Chamando serviço externo de clientes com CPF:", cpf);
       console.log("URL do serviço de clientes:", this.api.defaults.baseURL);
-       console.log("URL do serviço de clientes v2:", `${this.api.defaults.baseURL}/customer/cpf/${cpf}`);
+       console.log("URL do serviço de clientes v2:", `${this.api.defaults.baseURL}/customer/${cpf}`);
 
-      const response = await this.api.get(`/customer/cpf/${cpf}`);
+      const response = await this.api.get(`/customer/${cpf}`);
       
       console.log("Resposta do serviço de clientes:", response.data);
       
