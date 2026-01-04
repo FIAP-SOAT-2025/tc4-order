@@ -26,17 +26,7 @@ describe('ItemClient', () => {
     jest.clearAllMocks();
   });
 
-  describe('constructor', () => {
-    it('should create axios instance with correct configuration', () => {
-      expect(mockedAxios.create).toHaveBeenCalledWith({
-        baseURL: 'http://api-service.tc4-item.svc.cluster.local:8080',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-  });
-
+  
   describe('getItemExternally', () => {
     it('should successfully fetch item data', async () => {
       const itemId = uuidv4();

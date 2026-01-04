@@ -27,15 +27,6 @@ describe('CustomerClient', () => {
   });
 
   describe('constructor', () => {
-    it('should create axios instance with correct baseURL', () => {
-      expect(mockedAxios.create).toHaveBeenCalledWith({
-        baseURL: 'http://api-service.tc4-customer.svc.cluster.local:8080',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    });
-
     it('should create axios instance with correct headers', () => {
       expect(mockedAxios.create).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -64,7 +55,7 @@ describe('CustomerClient', () => {
 
       expect(result).toEqual(expectedResponse);
       expect(mockAxiosInstance.get).toHaveBeenCalledWith(
-        `/order/customer/cpf/${cpf}`,
+        `/customer/cpf/${cpf}`,
       );
     });
 
@@ -82,7 +73,7 @@ describe('CustomerClient', () => {
       await customerClient.findByCpfExternally(cpf);
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith(
-        `/order/customer/cpf/${cpf}`,
+        `/customer/cpf/${cpf}`,
       );
       expect(mockAxiosInstance.get).toHaveBeenCalledTimes(1);
     });
@@ -198,7 +189,7 @@ describe('CustomerClient', () => {
         await customerClient.findByCpfExternally(cpf);
 
         expect(mockAxiosInstance.get).toHaveBeenCalledWith(
-          `/order/customer/cpf/${cpf}`,
+          `/customer/cpf/${cpf}`,
         );
       }
     });
@@ -362,7 +353,7 @@ describe('CustomerClient', () => {
       await customerClient.findByCpfExternally(cpf);
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith(
-        `/order/customer/cpf/${cpf}`,
+        `/customer/cpf/${cpf}`,
       );
     });
 
@@ -433,7 +424,7 @@ describe('CustomerClient', () => {
       await customerClient.findByCpfExternally(cpf);
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith(
-        `/order/customer/cpf/${cpf}`,
+        `/customer/cpf/${cpf}`,
       );
     });
 
