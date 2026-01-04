@@ -264,6 +264,7 @@ O projeto utiliza **SonarCloud** para análise de qualidade de código e possui 
 ### Amostra do coverage de teste maior que 80%
 ![Coverage maior que 80%](./assets/order-test-80.png)
 
+Para mais detalhes, consulte o [Documento de Testes](./Readme_testes.md)
 
 **Ver relatório completo:**
 - [SonarCloud Dashboard](https://sonarcloud.io/project/overview?id=FIAP-SOAT-2025_tc4-order)
