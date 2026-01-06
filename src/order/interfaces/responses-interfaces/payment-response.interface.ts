@@ -4,8 +4,8 @@ export interface PaymentExternallyResponse {
 };
 
 export interface InputPayment {
-    email: string,
-    totalAmount: number,
+    customer_email: string,
+    amount: number,
     orderId: string,
    
 }
