@@ -10,14 +10,14 @@ export class CreatePaymentUseCase implements CreatePaymentInterface {
   ) {}
 
   async createPayment(
-    email: string,
+    customer_email: string,
     orderId: string,
-    totalAmount: number
+    amount: number
   ): Promise<PaymentExternallyResponse> {
-    console.log("CreatePaymentUseCase - createPayment called with:", { email, orderId, totalAmount });
+    console.log("::22:40::CreatePaymentUseCase - createPayment called with:", { customer_email, orderId, amount });
       const paymentInput: InputPayment = {
-        customer_email: email,
-        amount: totalAmount,
+        customer_email,
+        amount,
         orderId,
         
       };
