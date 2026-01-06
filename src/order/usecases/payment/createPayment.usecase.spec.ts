@@ -45,8 +45,8 @@ describe('CreatePaymentUseCase', () => {
         status: 'PENDING',
       });
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledWith({
-        email: email,
-        totalAmount: totalAmount,
+        customer_email: email,
+        amount: totalAmount,
         orderId: orderId,
       });
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledTimes(1);
@@ -173,7 +173,7 @@ describe('CreatePaymentUseCase', () => {
 
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledWith(
         expect.objectContaining({
-          totalAmount: 999.99,
+          amount: 999.99,
         }),
       );
     });
@@ -197,7 +197,7 @@ describe('CreatePaymentUseCase', () => {
 
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledWith(
         expect.objectContaining({
-          totalAmount: 0.01,
+          amount: 0.01,
         }),
       );
     });
@@ -221,7 +221,7 @@ describe('CreatePaymentUseCase', () => {
 
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledWith(
         expect.objectContaining({
-          email: 'specific@email.com',
+          customer_email: 'specific@email.com',
         }),
       );
     });
@@ -401,7 +401,7 @@ describe('CreatePaymentUseCase', () => {
 
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledWith(
         expect.objectContaining({
-          email: 'Test.User+Tag@Example.COM',
+          customer_email: 'Test.User+Tag@Example.COM',
         }),
       );
     });
@@ -425,7 +425,7 @@ describe('CreatePaymentUseCase', () => {
 
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledWith(
         expect.objectContaining({
-          totalAmount: 9999999.99,
+          amount: 9999999.99,
         }),
       );
     });

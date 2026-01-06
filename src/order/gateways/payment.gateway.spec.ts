@@ -413,7 +413,7 @@ describe('PaymentGateway', () => {
       const orderId = uuidv4();
       const input: InputPayment = {
         customer_email: 'user@example.co.jp',
-        totalAmount: 100.0,
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -464,8 +464,8 @@ describe('PaymentGateway', () => {
 
       expect(paymentClientMock.createPaymentExternal).toHaveBeenCalledWith(
         expect.objectContaining({
-          email: 'preserve@example.com',
-          totalAmount: 250.75,
+          customer_email: 'preserve@example.com',
+          amount: 250.75,
           orderId: orderId,
         }),
       );
