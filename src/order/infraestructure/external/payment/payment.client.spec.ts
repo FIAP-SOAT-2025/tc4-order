@@ -35,8 +35,8 @@ describe('PaymentClient', () => {
       const orderId = uuidv4();
       const paymentId = uuidv4();
       const input: InputPayment = {
-        email: 'customer@example.com',
-        totalAmount: 100.0,
+        customer_email: 'customer@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -62,8 +62,8 @@ describe('PaymentClient', () => {
     it('should call correct endpoint with payment data', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'test@test.com',
-        totalAmount: 50.0,
+        customer_email: 'test@test.com',
+        amount: 50.0,
         orderId: orderId,
       };
 
@@ -94,8 +94,8 @@ describe('PaymentClient', () => {
       );
 
       const input: InputPayment = {
-        email: 'uuid@example.com',
-        totalAmount: 75.5,
+        customer_email: 'uuid@example.com',
+        amount: 75.5,
         orderId: orderId,
       };
 
@@ -127,8 +127,8 @@ describe('PaymentClient', () => {
       for (const email of emails) {
         const orderId = uuidv4();
         const input: InputPayment = {
-          email: email,
-          totalAmount: 25.0,
+          customer_email: email,
+          amount: 25.0,
           orderId: orderId,
         };
 
@@ -157,8 +157,8 @@ describe('PaymentClient', () => {
       for (const amount of amounts) {
         const orderId = uuidv4();
         const input: InputPayment = {
-          email: 'amount@test.com',
-          totalAmount: amount,
+          customer_email: 'amount@test.com',
+          amount: amount,
           orderId: orderId,
         };
 
@@ -180,8 +180,8 @@ describe('PaymentClient', () => {
     it('should return payment response with status pending', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'status@example.com',
-        totalAmount: 200.0,
+        customer_email: 'status@example.com',
+        amount: 200.0,
         orderId: orderId,
       };
 
@@ -203,8 +203,8 @@ describe('PaymentClient', () => {
       const orderId = uuidv4();
       const paymentId = uuidv4();
       const input: InputPayment = {
-        email: 'fields@example.com',
-        totalAmount: 75.0,
+        customer_email: 'fields@example.com',
+        amount: 75.0,
         orderId: orderId,
       };
 
@@ -228,8 +228,8 @@ describe('PaymentClient', () => {
     it('should handle large amount values', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'large@example.com',
-        totalAmount: 999999.99,
+        customer_email: 'large@example.com',
+        amount: 999999.99,
         orderId: orderId,
       };
 
@@ -250,8 +250,8 @@ describe('PaymentClient', () => {
     it('should throw error when payment service fails', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'error@example.com',
-        totalAmount: 100.0,
+        customer_email: 'error@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -266,8 +266,8 @@ describe('PaymentClient', () => {
     it('should throw error when network fails', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'network@example.com',
-        totalAmount: 75.0,
+        customer_email: 'network@example.com',
+        amount: 75.0,
         orderId: orderId,
       };
 
@@ -282,8 +282,8 @@ describe('PaymentClient', () => {
     it('should make POST request to correct endpoint', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'endpoint@test.com',
-        totalAmount: 100.0,
+        customer_email: 'endpoint@test.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -307,8 +307,8 @@ describe('PaymentClient', () => {
     it('should return exact response from external API', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'exact@response.com',
-        totalAmount: 50.0,
+        customer_email: 'exact@response.com',
+        amount: 50.0,
         orderId: orderId,
       };
 
@@ -331,14 +331,14 @@ describe('PaymentClient', () => {
       const orderId2 = uuidv4();
 
       const input1: InputPayment = {
-        email: 'sequential1@example.com',
-        totalAmount: 50.0,
+        customer_email: 'sequential1@example.com',
+        amount: 50.0,
         orderId: orderId1,
       };
 
       const input2: InputPayment = {
-        email: 'sequential2@example.com',
-        totalAmount: 75.0,
+        customer_email: 'sequential2@example.com',
+        amount: 75.0,
         orderId: orderId2,
       };
 
@@ -367,8 +367,8 @@ describe('PaymentClient', () => {
     it('should return payment with approved status', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'approved@example.com',
-        totalAmount: 100.0,
+        customer_email: 'approved@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -392,8 +392,8 @@ describe('PaymentClient', () => {
       for (const status of statuses) {
         const orderId = uuidv4();
         const input: InputPayment = {
-          email: 'status@test.com',
-          totalAmount: 50.0,
+          customer_email: 'status@test.com',
+          amount: 50.0,
           orderId: orderId,
         };
 
@@ -415,8 +415,8 @@ describe('PaymentClient', () => {
     it('should call axios post only once per request', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'once@example.com',
-        totalAmount: 50.0,
+        customer_email: 'once@example.com',
+        amount: 50.0,
         orderId: orderId,
       };
 
@@ -437,8 +437,8 @@ describe('PaymentClient', () => {
     it('should throw error when service returns 500', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'error500@example.com',
-        totalAmount: 100.0,
+        customer_email: 'error500@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 

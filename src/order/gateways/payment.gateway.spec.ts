@@ -23,8 +23,8 @@ describe('PaymentGateway', () => {
     it('should create payment successfully', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'customer@example.com',
-        totalAmount: 100.0,
+        customer_email: 'customer@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -49,8 +49,8 @@ describe('PaymentGateway', () => {
     it('should call paymentClient with correct input', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'test@test.com',
-        totalAmount: 50.0,
+        customer_email: 'test@test.com',
+        amount: 50.0,
         orderId: orderId,
       };
 
@@ -77,8 +77,8 @@ describe('PaymentGateway', () => {
       );
 
       const input: InputPayment = {
-        email: 'uuid@example.com',
-        totalAmount: 75.5,
+        customer_email: 'uuid@example.com',
+        amount: 75.5,
         orderId: orderId,
       };
 
@@ -105,8 +105,8 @@ describe('PaymentGateway', () => {
       for (const email of emails) {
         const orderId = uuidv4();
         const input: InputPayment = {
-          email: email,
-          totalAmount: 25.0,
+          customer_email: email,
+          amount: 25.0,
           orderId: orderId,
         };
 
@@ -132,8 +132,8 @@ describe('PaymentGateway', () => {
       for (const amount of amounts) {
         const orderId = uuidv4();
         const input: InputPayment = {
-          email: 'amount@test.com',
-          totalAmount: amount,
+          customer_email: 'amount@test.com',
+          amount: amount,
           orderId: orderId,
         };
 
@@ -153,8 +153,8 @@ describe('PaymentGateway', () => {
     it('should return payment response with status pending', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'status@example.com',
-        totalAmount: 200.0,
+        customer_email: 'status@example.com',
+        amount: 200.0,
         orderId: orderId,
       };
 
@@ -173,8 +173,8 @@ describe('PaymentGateway', () => {
     it('should return payment response with all required fields', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'fields@example.com',
-        totalAmount: 75.0,
+        customer_email: 'fields@example.com',
+        amount: 75.0,
         orderId: orderId,
       };
 
@@ -197,8 +197,8 @@ describe('PaymentGateway', () => {
     it('should handle large amount values', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'large@example.com',
-        totalAmount: 999999.99,
+        customer_email: 'large@example.com',
+        amount: 999999.99,
         orderId: orderId,
       };
 
@@ -217,8 +217,8 @@ describe('PaymentGateway', () => {
     it('should handle small amount values', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'small@example.com',
-        totalAmount: 0.01,
+        customer_email: 'small@example.com',
+        amount: 0.01,
         orderId: orderId,
       };
 
@@ -237,8 +237,8 @@ describe('PaymentGateway', () => {
     it('should create payment with decimal amounts', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'decimal@example.com',
-        totalAmount: 123.45,
+        customer_email: 'decimal@example.com',
+        amount: 123.45,
         orderId: orderId,
       };
 
@@ -257,8 +257,8 @@ describe('PaymentGateway', () => {
     it('should return response from paymentClient', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'return@example.com',
-        totalAmount: 50.0,
+        customer_email: 'return@example.com',
+        amount: 50.0,
         orderId: orderId,
       };
 
@@ -280,8 +280,8 @@ describe('PaymentGateway', () => {
     it('should throw error when paymentClient fails', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'error@example.com',
-        totalAmount: 100.0,
+        customer_email: 'error@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -296,8 +296,8 @@ describe('PaymentGateway', () => {
     it('should throw error when network fails', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'network@example.com',
-        totalAmount: 75.0,
+        customer_email: 'network@example.com',
+        amount: 75.0,
         orderId: orderId,
       };
 
@@ -312,8 +312,8 @@ describe('PaymentGateway', () => {
     it('should propagate errors from paymentClient', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'propagate@example.com',
-        totalAmount: 200.0,
+        customer_email: 'propagate@example.com',
+        amount: 200.0,
         orderId: orderId,
       };
 
@@ -330,8 +330,8 @@ describe('PaymentGateway', () => {
 
       for (const orderId of orderIds) {
         const input: InputPayment = {
-          email: 'multiple@example.com',
-          totalAmount: 50.0,
+          customer_email: 'multiple@example.com',
+          amount: 50.0,
           orderId: orderId,
         };
 
@@ -356,14 +356,14 @@ describe('PaymentGateway', () => {
       const orderId2 = uuidv4();
 
       const input1: InputPayment = {
-        email: 'sequential1@example.com',
-        totalAmount: 50.0,
+        customer_email: 'sequential1@example.com',
+        amount: 50.0,
         orderId: orderId1,
       };
 
       const input2: InputPayment = {
-        email: 'sequential2@example.com',
-        totalAmount: 75.0,
+        customer_email: 'sequential2@example.com',
+        amount: 75.0,
         orderId: orderId2,
       };
 
@@ -392,8 +392,8 @@ describe('PaymentGateway', () => {
     it('should verify paymentClient is called only once per request', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'once@example.com',
-        totalAmount: 50.0,
+        customer_email: 'once@example.com',
+        amount: 50.0,
         orderId: orderId,
       };
 
@@ -412,7 +412,7 @@ describe('PaymentGateway', () => {
     it('should create payment with international email', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'user@example.co.jp',
+        customer_email: 'user@example.co.jp',
         totalAmount: 100.0,
         orderId: orderId,
       };
@@ -432,8 +432,8 @@ describe('PaymentGateway', () => {
     it('should handle timeout errors', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'timeout@example.com',
-        totalAmount: 100.0,
+        customer_email: 'timeout@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -448,8 +448,8 @@ describe('PaymentGateway', () => {
     it('should create payment and preserve input data', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'preserve@example.com',
-        totalAmount: 250.75,
+        customer_email: 'preserve@example.com',
+        amount: 250.75,
         orderId: orderId,
       };
 
@@ -474,8 +474,8 @@ describe('PaymentGateway', () => {
     it('should return payment with approved status', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'approved@example.com',
-        totalAmount: 100.0,
+        customer_email: 'approved@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -494,8 +494,8 @@ describe('PaymentGateway', () => {
     it('should return payment with rejected status', async () => {
       const orderId = uuidv4();
       const input: InputPayment = {
-        email: 'rejected@example.com',
-        totalAmount: 100.0,
+        customer_email: 'rejected@example.com',
+        amount: 100.0,
         orderId: orderId,
       };
 
@@ -517,8 +517,8 @@ describe('PaymentGateway', () => {
       for (const status of statuses) {
         const orderId = uuidv4();
         const input: InputPayment = {
-          email: 'status@test.com',
-          totalAmount: 50.0,
+          customer_email: 'status@test.com',
+          amount: 50.0,
           orderId: orderId,
         };
 

@@ -16,8 +16,8 @@ export class CreatePaymentUseCase implements CreatePaymentInterface {
   ): Promise<PaymentExternallyResponse> {
     console.log("CreatePaymentUseCase - createPayment called with:", { email, orderId, totalAmount });
       const paymentInput: InputPayment = {
-        email,
-        totalAmount,
+        customer_email: email,
+        amount: totalAmount,
         orderId,
         
       };

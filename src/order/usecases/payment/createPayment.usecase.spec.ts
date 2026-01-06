@@ -70,8 +70,8 @@ describe('CreatePaymentUseCase', () => {
       await createPaymentUseCase.createPayment(email, orderId, totalAmount);
 
       const expectedInput: InputPayment = {
-        email: email,
-        totalAmount: totalAmount,
+        customer_email: email,
+        amount: totalAmount,
         orderId: orderId,
       };
 
