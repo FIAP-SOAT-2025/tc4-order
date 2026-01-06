@@ -1,9 +1,9 @@
 import { PaymentExternallyResponse } from "./responses-interfaces/payment-response.interface";
 export interface CreatePaymentInterface {
   createPayment(
-    email: string,
+    customer_email: string,
     orderId: string,
-    totalAmount: number
+    amount: number
   ): Promise<PaymentExternallyResponse>;
 }
 
