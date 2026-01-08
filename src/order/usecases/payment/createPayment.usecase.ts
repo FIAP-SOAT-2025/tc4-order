@@ -21,14 +21,13 @@ export class CreatePaymentUseCase implements CreatePaymentInterface {
         orderId,
         
       };
-    const provideResponse : PaymentExternallyResponse = await this.paymentGateway.createPaymentGateway(paymentInput);
+    const provideResponse = await this.paymentGateway.createPaymentGateway(paymentInput);
     console.log("provideResponse:", provideResponse);
     
       const paymentyExternall : PaymentExternallyResponse = {
-        paymentId: provideResponse.paymentId,
-        status: provideResponse.status
+        id : provideResponse.id,
+        status : provideResponse.status
       };
-
     return paymentyExternall;
   }
 }
