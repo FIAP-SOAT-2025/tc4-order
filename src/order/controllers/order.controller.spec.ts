@@ -69,7 +69,7 @@ describe('OrderController', () => {
       };
 
       const mockPayment = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -90,7 +90,7 @@ describe('OrderController', () => {
 
       expect(result).toEqual(mockResponse);
       expect(result.order.id).toBe(orderId);
-      expect(result.payment.paymentId).toBe(paymentId);
+      expect(result.payment.id).toBe(paymentId);
       expect(ProcessOrderUseCase.processOrder).toHaveBeenCalledWith(
         orderDto,
         expect.any(OrderGateway),
@@ -119,7 +119,7 @@ describe('OrderController', () => {
       };
 
       const mockPayment = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -170,7 +170,7 @@ describe('OrderController', () => {
       };
 
       const mockPayment = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -235,7 +235,7 @@ describe('OrderController', () => {
           orderItems: [{ itemId: itemId, quantity: 1, price: 50.0 }],
         },
         payment: {
-          paymentId: paymentId,
+          id: paymentId,
           status: 'PENDING',
         },
       };
@@ -272,7 +272,7 @@ describe('OrderController', () => {
           orderItems: [{ itemId: itemId, quantity: 1, price: 50.0 }],
         },
         payment: {
-          paymentId: paymentId,
+          id: paymentId,
           status: 'PENDING',
         },
       };

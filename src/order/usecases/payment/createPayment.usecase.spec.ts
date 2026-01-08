@@ -26,7 +26,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 100.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id:paymentId,
         status: 'PENDING',
       };
 
@@ -41,7 +41,7 @@ describe('CreatePaymentUseCase', () => {
       );
 
       expect(result).toEqual({
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       });
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledWith({
@@ -59,7 +59,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 250.5;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'APPROVED',
       };
 
@@ -87,7 +87,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 75.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -101,7 +101,7 @@ describe('CreatePaymentUseCase', () => {
         totalAmount,
       );
 
-      expect(result).toHaveProperty('paymentId', paymentId);
+      expect(result).toHaveProperty('id', paymentId);
       expect(result).toHaveProperty('status', 'PENDING');
       expect(Object.keys(result)).toHaveLength(2);
     });
@@ -113,7 +113,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 150.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'APPROVED',
       };
 
@@ -137,7 +137,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 50.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'REJECTED',
       };
 
@@ -161,7 +161,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 999.99;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -185,7 +185,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 0.01;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -209,7 +209,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 100.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -233,7 +233,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 200.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -257,7 +257,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 300.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -271,7 +271,7 @@ describe('CreatePaymentUseCase', () => {
         totalAmount,
       );
 
-      expect(result.paymentId).toBe(paymentId);
+      expect(result.id).toBe(paymentId);
     });
 
     it('should return status from gateway response', async () => {
@@ -281,7 +281,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 400.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PROCESSING',
       };
 
@@ -336,7 +336,7 @@ describe('CreatePaymentUseCase', () => {
       );
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -365,7 +365,7 @@ describe('CreatePaymentUseCase', () => {
       );
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -379,7 +379,7 @@ describe('CreatePaymentUseCase', () => {
         totalAmount,
       );
 
-      expect(result.paymentId).toBe(paymentId);
+      expect(result.id).toBe(paymentId);
     });
 
     it('should handle email with different formats', async () => {
@@ -389,7 +389,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 100.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -413,7 +413,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 9999999.99;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -437,7 +437,7 @@ describe('CreatePaymentUseCase', () => {
       const totalAmount = 100.0;
 
       const mockPaymentResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -461,12 +461,12 @@ describe('CreatePaymentUseCase', () => {
       const paymentId2 = uuidv4();
 
       const mockPaymentResponse1: PaymentExternallyResponse = {
-        paymentId: paymentId1,
+        id: paymentId1,
         status: 'PENDING',
       };
 
       const mockPaymentResponse2: PaymentExternallyResponse = {
-        paymentId: paymentId2,
+        id: paymentId2,
         status: 'APPROVED',
       };
 
@@ -485,9 +485,9 @@ describe('CreatePaymentUseCase', () => {
         200.0,
       );
 
-      expect(result1.paymentId).toBe(paymentId1);
+      expect(result1.id).toBe(paymentId1);
       expect(result1.status).toBe('PENDING');
-      expect(result2.paymentId).toBe(paymentId2);
+      expect(result2.id).toBe(paymentId2);
       expect(result2.status).toBe('APPROVED');
       expect(paymentGatewayMock.createPaymentGateway).toHaveBeenCalledTimes(2);
     });
