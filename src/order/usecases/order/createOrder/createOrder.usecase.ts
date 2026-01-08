@@ -57,7 +57,7 @@ export default class ProcessOrderUseCase {
     const createdOrder = await orderGateway.saveOrder(current_order);
     console.log("pedido criado:", createdOrder);
     
-    const payment = await createPaymentUseCase.createPayment(
+    const payment: PaymentExternallyResponse = await createPaymentUseCase.createPayment(
       customer?.email || ProcessOrderUseCase.generateEmailForPaymentClient(createdOrder.id),
       createdOrder.id,
       createdOrder.totalAmount,

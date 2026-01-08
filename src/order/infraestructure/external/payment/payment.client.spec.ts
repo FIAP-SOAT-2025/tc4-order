@@ -41,7 +41,7 @@ describe('PaymentClient', () => {
       };
 
       const expectedResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'pending',
       };
 
@@ -68,7 +68,7 @@ describe('PaymentClient', () => {
       };
 
       const response: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'pending',
       };
 
@@ -100,7 +100,7 @@ describe('PaymentClient', () => {
       };
 
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'pending',
       };
 
@@ -110,8 +110,8 @@ describe('PaymentClient', () => {
 
       const result = await paymentClient.createPaymentExternal(input);
 
-      expect(result.paymentId).toBeDefined();
-      expect(result.paymentId).toMatch(
+      expect(result.id).toBeDefined();
+      expect(result.id).toMatch(
         /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       );
     });
@@ -133,7 +133,7 @@ describe('PaymentClient', () => {
         };
 
         const response: PaymentExternallyResponse = {
-          paymentId: uuidv4(),
+          id: uuidv4(),
           status: 'pending',
         };
 
@@ -163,7 +163,7 @@ describe('PaymentClient', () => {
         };
 
         const response: PaymentExternallyResponse = {
-          paymentId: uuidv4(),
+          id: uuidv4(),
           status: 'pending',
         };
 
@@ -186,7 +186,7 @@ describe('PaymentClient', () => {
       };
 
       const response: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'pending',
       };
 
@@ -209,7 +209,7 @@ describe('PaymentClient', () => {
       };
 
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'pending',
       };
 
@@ -219,9 +219,9 @@ describe('PaymentClient', () => {
 
       const result = await paymentClient.createPaymentExternal(input);
 
-      expect(result).toHaveProperty('paymentId');
+      expect(result).toHaveProperty('id');
       expect(result).toHaveProperty('status');
-      expect(result.paymentId).toBe(paymentId);
+      expect(result.id).toBe(paymentId);
       expect(result.status).toBe('pending');
     });
 
@@ -234,7 +234,7 @@ describe('PaymentClient', () => {
       };
 
       const response: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'pending',
       };
 
@@ -288,7 +288,7 @@ describe('PaymentClient', () => {
       };
 
       const response: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'pending',
       };
 
@@ -313,7 +313,7 @@ describe('PaymentClient', () => {
       };
 
       const apiResponse: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'approved',
       };
 
@@ -343,12 +343,12 @@ describe('PaymentClient', () => {
       };
 
       const response1: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'pending',
       };
 
       const response2: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'approved',
       };
 
@@ -373,7 +373,7 @@ describe('PaymentClient', () => {
       };
 
       const response: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'approved',
       };
 
@@ -398,7 +398,7 @@ describe('PaymentClient', () => {
         };
 
         const response: PaymentExternallyResponse = {
-          paymentId: uuidv4(),
+          id: uuidv4(),
           status: status,
         };
 
@@ -421,7 +421,7 @@ describe('PaymentClient', () => {
       };
 
       const response: PaymentExternallyResponse = {
-        paymentId: uuidv4(),
+        id: uuidv4(),
         status: 'pending',
       };
 
@@ -456,7 +456,7 @@ describe('PaymentClient', () => {
     it('should get payment status successfully', async () => {
       const paymentId = uuidv4();
       const expectedResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'approved',
       };
 
@@ -476,7 +476,7 @@ describe('PaymentClient', () => {
     it('should call correct endpoint with paymentId', async () => {
       const paymentId = uuidv4();
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'pending',
       };
 
@@ -500,7 +500,7 @@ describe('PaymentClient', () => {
       );
 
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'approved',
       };
 
@@ -510,8 +510,8 @@ describe('PaymentClient', () => {
 
       const result = await paymentClient.getPaymentStatus(paymentId);
 
-      expect(result.paymentId).toBe(paymentId);
-      expect(result.paymentId).toMatch(
+      expect(result.id).toBe(paymentId);
+      expect(result.id).toMatch(
         /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
       );
     });
@@ -519,7 +519,7 @@ describe('PaymentClient', () => {
     it('should return status pending', async () => {
       const paymentId = uuidv4();
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'pending',
       };
 
@@ -535,7 +535,7 @@ describe('PaymentClient', () => {
     it('should return status approved', async () => {
       const paymentId = uuidv4();
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'approved',
       };
 
@@ -551,7 +551,7 @@ describe('PaymentClient', () => {
     it('should return status rejected', async () => {
       const paymentId = uuidv4();
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'rejected',
       };
 
@@ -570,7 +570,7 @@ describe('PaymentClient', () => {
       for (const status of statuses) {
         const paymentId = uuidv4();
         const response: PaymentExternallyResponse = {
-          paymentId: paymentId,
+          id: paymentId,
           status: status,
         };
 
@@ -587,7 +587,7 @@ describe('PaymentClient', () => {
     it('should return response from external service', async () => {
       const paymentId = uuidv4();
       const apiResponse: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'approved',
       };
 
@@ -639,12 +639,12 @@ describe('PaymentClient', () => {
       const paymentId2 = uuidv4();
 
       const response1: PaymentExternallyResponse = {
-        paymentId: paymentId1,
+        id: paymentId1,
         status: 'pending',
       };
 
       const response2: PaymentExternallyResponse = {
-        paymentId: paymentId2,
+        id: paymentId2,
         status: 'approved',
       };
 
@@ -663,7 +663,7 @@ describe('PaymentClient', () => {
     it('should make PATCH request to correct URL', async () => {
       const paymentId = uuidv4();
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'approved',
       };
 
@@ -681,7 +681,7 @@ describe('PaymentClient', () => {
     it('should return payment with all required fields', async () => {
       const paymentId = uuidv4();
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'approved',
       };
 
@@ -691,14 +691,14 @@ describe('PaymentClient', () => {
 
       const result = await paymentClient.getPaymentStatus(paymentId);
 
-      expect(result).toHaveProperty('paymentId');
+      expect(result).toHaveProperty('id');
       expect(result).toHaveProperty('status');
     });
 
     it('should call axios patch only once per request', async () => {
       const paymentId = uuidv4();
       const response: PaymentExternallyResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'approved',
       };
 

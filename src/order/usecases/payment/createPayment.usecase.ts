@@ -25,10 +25,9 @@ export class CreatePaymentUseCase implements CreatePaymentInterface {
     console.log("provideResponse:", provideResponse);
     
       const paymentyExternall : PaymentExternallyResponse = {
-        paymentId: provideResponse.paymentId,
-        status: provideResponse.status
+        id : provideResponse.id,
+        status : provideResponse.status
       };
-
     return paymentyExternall;
   }
 }

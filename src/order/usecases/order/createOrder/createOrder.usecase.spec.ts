@@ -84,7 +84,7 @@ describe('ProcessOrderUseCase', () => {
       });
 
       const paymentResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -146,7 +146,7 @@ describe('ProcessOrderUseCase', () => {
       });
 
       const paymentResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -250,7 +250,7 @@ describe('ProcessOrderUseCase', () => {
       });
 
       const paymentResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -305,7 +305,7 @@ describe('ProcessOrderUseCase', () => {
       });
 
       const paymentResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -377,7 +377,7 @@ describe('ProcessOrderUseCase', () => {
       });
 
       const paymentResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -441,7 +441,7 @@ describe('ProcessOrderUseCase', () => {
       });
 
       const paymentResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
@@ -500,7 +500,7 @@ describe('ProcessOrderUseCase', () => {
       });
 
       const paymentResponse = {
-        paymentId: paymentId,
+        id: paymentId,
         status: 'PENDING',
       };
 
