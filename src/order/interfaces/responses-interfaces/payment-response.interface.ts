@@ -1,6 +1,6 @@
 export interface PaymentExternallyResponse {
-    paymentId: String,
-    status: String,
+    id: string,
+    status: string,
 };
 
 export interface InputPayment {
