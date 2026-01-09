@@ -261,8 +261,13 @@ O projeto utiliza **SonarCloud** para análise de qualidade de código e possui 
 
 ![Coverage abaixo de 80%](./assets/order-test-66.png)
 
-### Amostra do coverage de teste maior que 80%
+### Amostra do coverage de teste maior que 80% no sonar
 ![Coverage maior que 80%](./assets/order-test-80.png)
+
+
+
+### Amostra do coverage de teste maior que 80% no projeto
+![Coverage maior que 80%](./assets/teste-projeto-order.png)
 
 Para mais detalhes, consulte o [Documento de Testes](./Readme_testes.md)
 
