@@ -246,7 +246,7 @@ O projeto mantém **>80% de cobertura de testes** com foco em:
 - ✅ Repositories (persistência)
 - ✅ Controllers (API)
 - ✅ External Clients (APIs externas)
-- ✅ **BDD (Behavior-Driven Development)**: Implementado em `findOrder.usecase.spec.ts` usando sintaxe Given/When/Then
+- ✅ **BDD (Behavior-Driven Development)**: (./src/order/entities/order.entity.spec.feature)
 
 ### Quality Gate - SonarCloud
 
